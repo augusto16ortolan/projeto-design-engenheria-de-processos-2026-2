@@ -1,14 +1,18 @@
 import { useState } from "react";
-import {
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+
+import { Button, TextInput } from "react-native-paper";
+
+import AcaoRapida from "../components/AcaoRapida";
+import Aviso from "../components/Aviso";
+import BotaoFiltro from "../components/BotaoFiltro";
+import CardEstatistica from "../components/CardEstatistica";
+import CampoTexto from "../components/CampoTexto";
+import Botao from "../components/Botao";
+import TituloSecao from "../components/TituloSecao";
+import CardPessoa from "../components/CardPessoa";
+
+import pessoas from "../data/pessoas";
 
 export default function Home() {
   const [busca, setBusca] = useState("");
@@ -26,321 +30,184 @@ export default function Home() {
         Encontre os trechos que se repetem e transforme-os em componentes.
       </Text>
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Buscar pessoa</Text>
-        <TextInput
-          value={busca}
-          onChangeText={setBusca}
-          placeholder="Digite um nome"
-          placeholderTextColor="#94A3B8"
-          style={styles.input}
-        />
-      </View>
+      <Button
+        icon="camera"
+        mode="contained"
+        onPress={() => console.log("Pressed")}
+      >
+        Press me
+      </Button>
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Seu nome</Text>
-        <TextInput
-          value={nome}
-          onChangeText={setNome}
-          placeholder="Digite seu nome"
-          placeholderTextColor="#94A3B8"
-          style={styles.input}
-        />
-      </View>
+      <TextInput
+        label="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Seu e-mail</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="nome@email.com"
-          placeholderTextColor="#94A3B8"
-          style={styles.input}
-        />
-      </View>
+      <CampoTexto
+        label={"Buscar pessoa"}
+        valor={busca}
+        setValor={setBusca}
+        placeholder={"Digite um nome"}
+      />
 
-      <TouchableOpacity
-        activeOpacity={0.75}
-        style={styles.primaryButton}
-        onPress={() =>
+      <CampoTexto
+        label={"Seu nome"}
+        valor={nome}
+        setValor={setNome}
+        placeholder={"Digite o seu nome"}
+      />
+
+      <CampoTexto
+        label={"Seu email"}
+        valor={email}
+        setValor={setEmail}
+        placeholder="nome@email.com"
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+
+      <Botao
+        label={"Cadastrar pessoa"}
+        action={() =>
           Alert.alert("Cadastro", `Nome: ${nome}\nE-mail: ${email}`)
         }
-      >
-        <Text style={styles.primaryButtonText}>Cadastrar pessoa</Text>
-      </TouchableOpacity>
+      />
 
-      <TouchableOpacity
-        activeOpacity={0.75}
-        style={styles.primaryButton}
-        onPress={() =>
+      <Botao
+        label={"Visualizar cadastro"}
+        action={() =>
           Alert.alert(
             "Dados preenchidos",
             `Busca: ${busca}\nNome: ${nome}\nE-mail: ${email}`,
           )
         }
-      >
-        <Text style={styles.primaryButtonText}>Visualizar cadastro</Text>
-      </TouchableOpacity>
+      />
 
-      <TouchableOpacity
-        activeOpacity={0.75}
-        style={styles.secondaryButton}
-        onPress={() => {
+      <Botao
+        label={"Limpar campos"}
+        action={() => {
           setBusca("");
           setNome("");
           setEmail("");
         }}
-      >
-        <Text style={styles.secondaryButtonText}>Limpar campos</Text>
-      </TouchableOpacity>
+        type="secondary"
+      />
 
-      <TouchableOpacity
-        activeOpacity={0.75}
-        style={styles.secondaryButton}
-        onPress={() => {
+      <Botao
+        label={"Preencher exemplo"}
+        action={() => {
           setBusca("Ana");
           setNome("Ana Souza");
           setEmail("ana.souza@email.com");
         }}
-      >
-        <Text style={styles.secondaryButtonText}>Preencher exemplo</Text>
-      </TouchableOpacity>
+        type="secondary"
+      />
 
-      <Text style={styles.sectionTitle}>Resumo da turma</Text>
+      <TituloSecao titulo="Resumo da turma" />
 
       <View style={styles.statisticsContainer}>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.statisticsCard}
-          onPress={() => Alert.alert("Alunos", "Ha 32 alunos cadastrados.")}
-        >
-          <Text style={styles.statisticsNumber}>32</Text>
-          <Text style={styles.statisticsLabel}>Alunos</Text>
-        </TouchableOpacity>
+        <CardEstatistica
+          numero="32"
+          label="Alunos"
+          action={() => Alert.alert("Alunos", "Ha 32 alunos cadastrados.")}
+        />
 
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.statisticsCard}
-          onPress={() =>
+        <CardEstatistica
+          numero="4"
+          label="Cidades"
+          action={() =>
             Alert.alert("Cidades", "A turma possui alunos de 4 cidades.")
           }
-        >
-          <Text style={styles.statisticsNumber}>4</Text>
-          <Text style={styles.statisticsLabel}>Cidades</Text>
-        </TouchableOpacity>
+        />
 
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.statisticsCard}
-          onPress={() => Alert.alert("Projetos", "Ha 8 projetos em andamento.")}
-        >
-          <Text style={styles.statisticsNumber}>8</Text>
-          <Text style={styles.statisticsLabel}>Projetos</Text>
-        </TouchableOpacity>
+        <CardEstatistica
+          numero="8"
+          label="Projetos"
+          action={() => Alert.alert("Projetos", "Ha 8 projetos em andamento.")}
+        />
       </View>
 
-      <Text style={styles.sectionTitle}>Filtrar por cidade</Text>
+      <TituloSecao titulo="Filtrar por cidade" />
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.filterList}
       >
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.filterActive}
-          onPress={() => Alert.alert("Filtro", "Exibindo todas as pessoas.")}
-        >
-          <Text style={styles.filterActiveText}>Todos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.filterButton}
-          onPress={() =>
+        <BotaoFiltro
+          label="Todos"
+          ativo
+          action={() => Alert.alert("Filtro", "Exibindo todas as pessoas.")}
+        />
+        <BotaoFiltro
+          label="Porto Alegre"
+          action={() =>
             Alert.alert("Filtro", "Exibindo pessoas de Porto Alegre.")
           }
-        >
-          <Text style={styles.filterButtonText}>Porto Alegre</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.filterButton}
-          onPress={() =>
+        />
+        <BotaoFiltro
+          label="Caxias do Sul"
+          action={() =>
             Alert.alert("Filtro", "Exibindo pessoas de Caxias do Sul.")
           }
-        >
-          <Text style={styles.filterButtonText}>Caxias do Sul</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.filterButton}
-          onPress={() =>
+        />
+        <BotaoFiltro
+          label="Passo Fundo"
+          action={() =>
             Alert.alert("Filtro", "Exibindo pessoas de Passo Fundo.")
           }
-        >
-          <Text style={styles.filterButtonText}>Passo Fundo</Text>
-        </TouchableOpacity>
+        />
       </ScrollView>
 
-      <Text style={styles.sectionTitle}>Acoes rapidas</Text>
+      <TituloSecao titulo="Acoes rapidas" />
 
       <View style={styles.quickActionsContainer}>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.quickAction}
-          onPress={() => Alert.alert("Nova pessoa", "Abra o formulario acima.")}
-        >
-          <Text style={styles.quickActionIcon}>+</Text>
-          <Text style={styles.quickActionText}>Adicionar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.quickAction}
-          onPress={() => Alert.alert("Projetos", "Nenhum projeto selecionado.")}
-        >
-          <Text style={styles.quickActionIcon}>#</Text>
-          <Text style={styles.quickActionText}>Projetos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={styles.quickAction}
-          onPress={() =>
+        <AcaoRapida
+          icone="+"
+          label="Adicionar"
+          action={() => Alert.alert("Nova pessoa", "Abra o formulario acima.")}
+        />
+        <AcaoRapida
+          icone="#"
+          label="Projetos"
+          action={() => Alert.alert("Projetos", "Nenhum projeto selecionado.")}
+        />
+        <AcaoRapida
+          icone="@"
+          label="Mensagens"
+          action={() =>
             Alert.alert("Mensagens", "Voce nao possui novas mensagens.")
           }
-        >
-          <Text style={styles.quickActionIcon}>@</Text>
-          <Text style={styles.quickActionText}>Mensagens</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.sectionTitle}>Avisos</Text>
-
-      <View style={styles.noticeCard}>
-        <View style={styles.noticeIcon}>
-          <Text style={styles.noticeIconText}>!</Text>
-        </View>
-        <View style={styles.noticeContent}>
-          <Text style={styles.noticeTitle}>Entrega do projeto</Text>
-          <Text style={styles.noticeText}>
-            Prazo: sexta-feira, 26 de setembro.
-          </Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            onPress={() =>
-              Alert.alert(
-                "Projeto",
-                "Lembre-se de enviar o link do repositorio.",
-              )
-            }
-          >
-            <Text style={styles.noticeAction}>Ver detalhes</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.noticeCard}>
-        <View style={styles.noticeIcon}>
-          <Text style={styles.noticeIconText}>i</Text>
-        </View>
-        <View style={styles.noticeContent}>
-          <Text style={styles.noticeTitle}>Proxima aula</Text>
-          <Text style={styles.noticeText}>
-            Vamos praticar a criacao de componentes.
-          </Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            onPress={() =>
-              Alert.alert("Aula", "Prepare seu projeto para a pratica.")
-            }
-          >
-            <Text style={styles.noticeAction}>Ver agenda</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <Text style={styles.sectionTitle}>Lista da turma</Text>
-
-      <View style={styles.card}>
-        <Image
-          source={{ uri: "https://randomuser.me/api/portraits/women/44.jpg" }}
-          style={styles.avatar}
         />
-        <View style={styles.cardContent}>
-          <Text style={styles.name}>Ana Souza</Text>
-          <Text style={styles.detail}>24 anos</Text>
-          <Text style={styles.detail}>Porto Alegre - RS</Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            style={styles.cardButton}
-            onPress={() => Alert.alert("Ana Souza", "Perfil selecionado.")}
-          >
-            <Text style={styles.cardButtonText}>Ver perfil</Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
-      <View style={styles.card}>
-        <Image
-          source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
-          style={styles.avatar}
-        />
-        <View style={styles.cardContent}>
-          <Text style={styles.name}>Bruno Martins</Text>
-          <Text style={styles.detail}>29 anos</Text>
-          <Text style={styles.detail}>Passo Fundo - RS</Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            style={styles.cardButton}
-            onPress={() => Alert.alert("Bruno Martins", "Perfil selecionado.")}
-          >
-            <Text style={styles.cardButtonText}>Ver perfil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TituloSecao titulo="Avisos" />
 
-      <View style={styles.card}>
-        <Image
-          source={{ uri: "https://randomuser.me/api/portraits/women/68.jpg" }}
-          style={styles.avatar}
-        />
-        <View style={styles.cardContent}>
-          <Text style={styles.name}>Carolina Lima</Text>
-          <Text style={styles.detail}>21 anos</Text>
-          <Text style={styles.detail}>Caxias do Sul - RS</Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            style={styles.cardButton}
-            onPress={() => Alert.alert("Carolina Lima", "Perfil selecionado.")}
-          >
-            <Text style={styles.cardButtonText}>Ver perfil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Aviso
+        icone="!"
+        titulo="Entrega do projeto"
+        texto="Prazo: sexta-feira, 26 de setembro."
+        labelAcao="Ver detalhes"
+        action={() =>
+          Alert.alert("Projeto", "Lembre-se de enviar o link do repositorio.")
+        }
+      />
+      <Aviso
+        icone="i"
+        titulo="Proxima aula"
+        texto="Vamos praticar a criacao de componentes."
+        labelAcao="Ver agenda"
+        action={() =>
+          Alert.alert("Aula", "Prepare seu projeto para a pratica.")
+        }
+      />
 
-      <View style={styles.card}>
-        <Image
-          source={{ uri: "https://randomuser.me/api/portraits/men/46.jpg" }}
-          style={styles.avatar}
-        />
-        <View style={styles.cardContent}>
-          <Text style={styles.name}>Daniel Oliveira</Text>
-          <Text style={styles.detail}>32 anos</Text>
-          <Text style={styles.detail}>Florianopolis - SC</Text>
-          <TouchableOpacity
-            activeOpacity={0.75}
-            style={styles.cardButton}
-            onPress={() =>
-              Alert.alert("Daniel Oliveira", "Perfil selecionado.")
-            }
-          >
-            <Text style={styles.cardButtonText}>Ver perfil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TituloSecao titulo="Lista da turma" />
+
+      {pessoas.map((pessoa) => {
+        return <CardPessoa key={pessoa.id} pessoa={pessoa} />;
+      })}
     </ScrollView>
   );
 }
@@ -366,221 +233,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 24,
   },
-  inputGroup: {
-    marginBottom: 14,
-  },
-  label: {
-    color: "#334155",
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 10,
-    borderWidth: 1,
-    color: "#0F172A",
-    fontSize: 15,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-  },
-  primaryButton: {
-    alignItems: "center",
-    backgroundColor: "#0F172A",
-    borderRadius: 10,
-    marginTop: 12,
-    padding: 16,
-  },
-  primaryButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "700",
-  },
-  secondaryButton: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#CBD5E1",
-    borderRadius: 10,
-    borderWidth: 1,
-    marginTop: 12,
-    padding: 15,
-  },
-  secondaryButtonText: {
-    color: "#334155",
-    fontSize: 15,
-    fontWeight: "700",
-  },
-  sectionTitle: {
-    color: "#0F172A",
-    fontSize: 19,
-    fontWeight: "800",
-    letterSpacing: -0.2,
-    marginBottom: 14,
-    marginTop: 32,
-  },
   statisticsContainer: {
     flexDirection: "row",
     gap: 10,
   },
-  statisticsCard: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 10,
-    borderWidth: 1,
-    flex: 1,
-    paddingVertical: 18,
-  },
-  statisticsNumber: {
-    color: "#0F172A",
-    fontSize: 23,
-    fontWeight: "800",
-  },
-  statisticsLabel: {
-    color: "#64748B",
-    fontSize: 13,
-    marginTop: 4,
-  },
   filterList: {
     flexGrow: 0,
-  },
-  filterActive: {
-    backgroundColor: "#0F172A",
-    borderRadius: 8,
-    marginRight: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-  },
-  filterActiveText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "700",
-  },
-  filterButton: {
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-  },
-  filterButtonText: {
-    color: "#475569",
-    fontSize: 14,
-    fontWeight: "600",
   },
   quickActionsContainer: {
     flexDirection: "row",
     gap: 10,
-  },
-  quickAction: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 10,
-    borderWidth: 1,
-    flex: 1,
-    paddingHorizontal: 6,
-    paddingVertical: 14,
-  },
-  quickActionIcon: {
-    color: "#0F172A",
-    fontSize: 22,
-    fontWeight: "700",
-  },
-  quickActionText: {
-    color: "#475569",
-    fontSize: 13,
-    fontWeight: "700",
-    marginTop: 5,
-  },
-  noticeCard: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 10,
-    borderWidth: 1,
-    flexDirection: "row",
-    marginBottom: 12,
-    padding: 14,
-  },
-  noticeIcon: {
-    alignItems: "center",
-    backgroundColor: "#F1F5F9",
-    borderRadius: 16,
-    height: 32,
-    justifyContent: "center",
-    marginRight: 12,
-    width: 32,
-  },
-  noticeIconText: {
-    color: "#475569",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  noticeContent: {
-    flex: 1,
-  },
-  noticeTitle: {
-    color: "#0F172A",
-    fontSize: 16,
-    fontWeight: "700",
-    marginBottom: 3,
-  },
-  noticeText: {
-    color: "#64748B",
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  noticeAction: {
-    color: "#0F172A",
-    fontSize: 14,
-    fontWeight: "700",
-    marginTop: 8,
-  },
-  card: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E2E8F0",
-    borderRadius: 12,
-    borderWidth: 1,
-    flexDirection: "row",
-    marginBottom: 16,
-    padding: 16,
-  },
-  avatar: {
-    borderRadius: 36,
-    height: 72,
-    marginRight: 16,
-    width: 72,
-  },
-  cardContent: {
-    flex: 1,
-  },
-  name: {
-    color: "#0F172A",
-    fontSize: 18,
-    fontWeight: "700",
-    marginBottom: 6,
-  },
-  detail: {
-    color: "#64748B",
-    fontSize: 15,
-    lineHeight: 21,
-  },
-  cardButton: {
-    alignSelf: "flex-start",
-    backgroundColor: "#F1F5F9",
-    borderRadius: 8,
-    marginTop: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  cardButtonText: {
-    color: "#334155",
-    fontSize: 14,
-    fontWeight: "700",
   },
 });

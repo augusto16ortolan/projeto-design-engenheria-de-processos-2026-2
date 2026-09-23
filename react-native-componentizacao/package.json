@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@react-native-vector-icons/material-design-icons": "^13.1.4",
     "expo": "~57.0.24",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
-    "react-native": "0.86.3"
+    "react-native": "0.86.3",
+    "react-native-date-picker": "^5.0.13",
+    "react-native-paper": "^5.15.3",
+    "react-native-safe-area-context": "^5.10.0"
   },
   "scripts": {
     "start": "expo start",
