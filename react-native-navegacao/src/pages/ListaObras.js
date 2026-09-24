@@ -1,6 +1,14 @@
-import { useState } from "react";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { useState, useLayoutEffect } from "react";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { Button, Text } from "react-native-paper";
+
+import { MaterialIcons } from "@expo/vector-icons";
 
 import CardObra from "../components/CardObra";
 import obras from "../data/obras";
@@ -8,8 +16,29 @@ import obras from "../data/obras";
 const filtros = ["Todos", "Filmes", "Séries"];
 const tiposPorFiltro = { Filmes: "Filme", Séries: "Série" };
 
-export default function ListaObras({ onSelecionarObra }) {
+export default function ListaObras({ navigation }) {
   const [filtroAtivo, setFiltroAtivo] = useState("Todos");
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => {
+        return (
+          <TouchableOpacity onPress={() => navigation.replace("Login")}>
+            <MaterialIcons name="logout" size={24} color="black" />
+          </TouchableOpacity>
+        );
+      },
+      headerRight: () => {
+        return (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("InformacoesDesenvolvedor")}
+          >
+            <MaterialIcons name="info-outline" size={24} color="black" />
+          </TouchableOpacity>
+        );
+      },
+    });
+  }, []);
 
   const obrasFiltradas = obras.filter((obra) => {
     if (filtroAtivo === "Todos") return true;
@@ -17,12 +46,9 @@ export default function ListaObras({ onSelecionarObra }) {
   });
 
   function selecionarObra(obra) {
-    if (onSelecionarObra) onSelecionarObra(obra);
-    else
-      Alert.alert(
-        obra.titulo,
-        "Na aula, este toque abrirá a tela de detalhes.",
-      );
+    navigation.navigate("DetalheObra", {
+      obra: obra,
+    });
   }
 
   return (
@@ -63,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 58,
+    paddingTop: 15,
   },
   titulo: { fontWeight: "800" },
   subtitulo: { color: "#5F6368", marginBottom: 18, marginTop: 6 },

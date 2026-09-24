@@ -6,26 +6,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
-export default function Cadastro({ onCadastrar }) {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export default function Cadastro({ navigation }) {
+  const [nome, setNome] = useState("Augusto");
+  const [email, setEmail] = useState("augusto@gmail.com");
+  const [senha, setSenha] = useState("1234");
 
   function cadastrar() {
     if (!nome || !email || !senha) {
       return Alert.alert("Campos obrigatórios", "Preencha todos os campos.");
     }
 
-    if (onCadastrar) return onCadastrar();
-
-    Alert.alert(
-      "Conta criada",
-      "Na aula, volte para a tela de login após o cadastro.",
-    );
+    navigation.navigate("ListaObras");
   }
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+    <SafeAreaView style={styles.safeArea} edges={[]}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"

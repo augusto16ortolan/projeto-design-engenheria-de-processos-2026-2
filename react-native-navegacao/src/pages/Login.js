@@ -6,9 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
-export default function Login({ onCadastrar, onEntrar }) {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState("augusto@gmail.com");
+  const [senha, setSenha] = useState("123456");
 
   function entrar() {
     if (!email || !senha) {
@@ -18,12 +18,7 @@ export default function Login({ onCadastrar, onEntrar }) {
       );
     }
 
-    if (onEntrar) return onEntrar();
-
-    Alert.alert(
-      "Pronto para navegar",
-      "Na aula, este botão abrirá o catálogo Marvel.",
-    );
+    navigation.navigate("ListaObras");
   }
 
   return (
@@ -85,17 +80,7 @@ export default function Login({ onCadastrar, onEntrar }) {
 
         <View style={styles.rodape}>
           <Text variant="bodyMedium">Ainda não possui conta?</Text>
-          <Button
-            mode="text"
-            onPress={() =>
-              onCadastrar
-                ? onCadastrar()
-                : Alert.alert(
-                    "Cadastro",
-                    "Na aula, este botão abrirá a tela de cadastro.",
-                  )
-            }
-          >
+          <Button mode="text" onPress={() => navigation.navigate("Cadastro")}>
             Criar conta
           </Button>
         </View>

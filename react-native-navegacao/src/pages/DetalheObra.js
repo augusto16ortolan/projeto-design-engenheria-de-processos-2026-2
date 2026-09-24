@@ -1,10 +1,23 @@
+import { useLayoutEffect } from "react";
+import { ActivityIndicator } from "react-native";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { Button, Chip, Divider, List, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import obras from "../data/obras";
+export default function DetalheObra({ route, navigation }) {
+  const { obra } = route.params;
 
-export default function DetalheObra({ obra = obras[0], onVoltar }) {
+  if (!obra) {
+    console.log("teste");
+    return <ActivityIndicator size={"large"} />;
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: obra.nome || "Obra",
+    });
+  }, []);
+
   const eSerie = obra.tipo === "Série";
 
   return (
@@ -68,11 +81,6 @@ export default function DetalheObra({ obra = obras[0], onVoltar }) {
             left={(props) => <List.Icon {...props} icon="clock-outline" />}
           />
         )}
-        {onVoltar && (
-          <Button mode="outlined" onPress={onVoltar} style={styles.botao}>
-            Voltar
-          </Button>
-        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -80,7 +88,11 @@ export default function DetalheObra({ obra = obras[0], onVoltar }) {
 
 const styles = StyleSheet.create({
   safeArea: { backgroundColor: "#FFFFFF", flex: 1 },
-  container: { backgroundColor: "#FFFFFF", padding: 24, paddingBottom: 42 },
+  container: {
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 24,
+    paddingBottom: 42,
+  },
   poster: {
     alignSelf: "center",
     borderRadius: 12,

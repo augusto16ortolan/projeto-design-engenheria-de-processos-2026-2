@@ -1,19 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import { MD3LightTheme, PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import Login from "./src/pages/Login";
-import Cadastro from "./src/pages/Cadastro";
-import ListaObras from "./src/pages/ListaObras";
-import DetalheObra from "./src/pages/DetalheObra";
-import InformacoesDesenvolvedor from "./src/pages/InformacoesDesenvolvedor";
+import { NavigationContainer } from "@react-navigation/native";
+import Routes from "./src/routes/routes";
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={tema}>
-        <StatusBar style="light" />
-        <Login />
+        <NavigationContainer>
+          <StatusBar style="dark" />
+          <Routes />
+        </NavigationContainer>
       </PaperProvider>
     </SafeAreaProvider>
   );
