@@ -1,0 +1,524 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Professor",
+      "email": "professor@media.dev",
+      "passwordHash": "$2b$10$sdH/xW6MZWgIaEnha79bJO0sr5rdg2bspYSZ5F99BxI2KnLN.QeS2"
+    }
+  ],
+  "media": [
+    {
+      "id": 1,
+      "type": "movie",
+      "title": "Homem de Ferro",
+      "year": 2008,
+      "duration": "2h 06min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.9,
+      "director": "Jon Favreau",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+      "synopsis": "Tony Stark cria uma armadura tecnológica e decide usá-la para proteger pessoas."
+    },
+    {
+      "id": 2,
+      "type": "movie",
+      "title": "O Incrível Hulk",
+      "year": 2008,
+      "duration": "1h 52min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 6.6,
+      "director": "Louis Leterrier",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg",
+      "synopsis": "Bruce Banner procura uma cura enquanto é perseguido pelo Exército."
+    },
+    {
+      "id": 3,
+      "type": "movie",
+      "title": "Homem de Ferro 2",
+      "year": 2010,
+      "duration": "2h 04min",
+      "genres": [
+        "Ação",
+        "Aventura"
+      ],
+      "ageRating": "12 anos",
+      "rating": 6.9,
+      "director": "Jon Favreau",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
+      "synopsis": "Tony Stark enfrenta novos inimigos e as consequências de sua tecnologia."
+    },
+    {
+      "id": 4,
+      "type": "movie",
+      "title": "Thor",
+      "year": 2011,
+      "duration": "1h 55min",
+      "genres": [
+        "Ação",
+        "Fantasia"
+      ],
+      "ageRating": "10 anos",
+      "rating": 7,
+      "director": "Kenneth Branagh",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+      "synopsis": "Banido de Asgard, Thor precisa provar que é digno de recuperar seu martelo."
+    },
+    {
+      "id": 5,
+      "type": "movie",
+      "title": "Capitão América: O Primeiro Vingador",
+      "year": 2011,
+      "duration": "2h 04min",
+      "genres": [
+        "Ação",
+        "Guerra"
+      ],
+      "ageRating": "12 anos",
+      "rating": 6.9,
+      "director": "Joe Johnston",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+      "synopsis": "Steve Rogers se torna um supersoldado durante a Segunda Guerra Mundial."
+    },
+    {
+      "id": 6,
+      "type": "movie",
+      "title": "Os Vingadores",
+      "year": 2012,
+      "duration": "2h 23min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.7,
+      "director": "Joss Whedon",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+      "synopsis": "Heróis com habilidades diferentes se unem quando Loki ameaça a Terra."
+    },
+    {
+      "id": 7,
+      "type": "movie",
+      "title": "Homem de Ferro 3",
+      "year": 2013,
+      "duration": "2h 10min",
+      "genres": [
+        "Ação",
+        "Aventura"
+      ],
+      "ageRating": "12 anos",
+      "rating": 6.9,
+      "director": "Shane Black",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",
+      "synopsis": "Tony Stark enfrenta um inimigo que ataca tudo o que ele ama."
+    },
+    {
+      "id": 8,
+      "type": "movie",
+      "title": "Thor: O Mundo Sombrio",
+      "year": 2013,
+      "duration": "1h 52min",
+      "genres": [
+        "Ação",
+        "Fantasia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 6.5,
+      "director": "Alan Taylor",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/wp6oxH6QvPjJLv6VYdqj6bQH6k4.jpg",
+      "synopsis": "Thor luta para impedir uma antiga força sombria de dominar o universo."
+    },
+    {
+      "id": 9,
+      "type": "movie",
+      "title": "Capitão América: O Soldado Invernal",
+      "year": 2014,
+      "duration": "2h 16min",
+      "genres": [
+        "Ação",
+        "Suspense"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.7,
+      "director": "Anthony e Joe Russo",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg",
+      "synopsis": "Steve Rogers descobre uma conspiração dentro da S.H.I.E.L.D."
+    },
+    {
+      "id": 10,
+      "type": "movie",
+      "title": "Guardiões da Galáxia",
+      "year": 2014,
+      "duration": "2h 01min",
+      "genres": [
+        "Ação",
+        "Comédia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.9,
+      "director": "James Gunn",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
+      "synopsis": "Um grupo improvável se reúne para salvar a galáxia."
+    },
+    {
+      "id": 11,
+      "type": "movie",
+      "title": "Vingadores: Era de Ultron",
+      "year": 2015,
+      "duration": "2h 21min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.3,
+      "director": "Joss Whedon",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg",
+      "synopsis": "Os Vingadores enfrentam Ultron, uma inteligência artificial criada para proteger a humanidade."
+    },
+    {
+      "id": 12,
+      "type": "movie",
+      "title": "Homem-Formiga",
+      "year": 2015,
+      "duration": "1h 57min",
+      "genres": [
+        "Ação",
+        "Comédia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.1,
+      "director": "Peyton Reed",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/rQRnQfV4jKZJ7QArlTnzv6eT1Qz.jpg",
+      "synopsis": "Scott Lang recebe um traje que altera seu tamanho."
+    },
+    {
+      "id": 13,
+      "type": "movie",
+      "title": "Capitão América: Guerra Civil",
+      "year": 2016,
+      "duration": "2h 27min",
+      "genres": [
+        "Ação",
+        "Aventura"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.8,
+      "director": "Anthony e Joe Russo",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/rAGiXaUfPzY7CDEyNKUofk3Kw2e.jpg",
+      "synopsis": "Um tratado divide os Vingadores e coloca aliados em lados opostos."
+    },
+    {
+      "id": 14,
+      "type": "movie",
+      "title": "Doutor Estranho",
+      "year": 2016,
+      "duration": "1h 55min",
+      "genres": [
+        "Fantasia",
+        "Aventura"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.4,
+      "director": "Scott Derrickson",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
+      "synopsis": "Um cirurgião aprende artes místicas após um acidente mudar sua vida."
+    },
+    {
+      "id": 15,
+      "type": "movie",
+      "title": "Guardiões da Galáxia Vol. 2",
+      "year": 2017,
+      "duration": "2h 16min",
+      "genres": [
+        "Ação",
+        "Comédia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.6,
+      "director": "James Gunn",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg",
+      "synopsis": "Os Guardiões enfrentam novos perigos enquanto Peter Quill descobre sua origem."
+    },
+    {
+      "id": 16,
+      "type": "movie",
+      "title": "Homem-Aranha: De Volta ao Lar",
+      "year": 2017,
+      "duration": "2h 13min",
+      "genres": [
+        "Ação",
+        "Comédia"
+      ],
+      "ageRating": "10 anos",
+      "rating": 7.4,
+      "director": "Jon Watts",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg",
+      "synopsis": "Peter Parker tenta equilibrar o ensino médio e a vida de super-herói."
+    },
+    {
+      "id": 17,
+      "type": "movie",
+      "title": "Thor: Ragnarok",
+      "year": 2017,
+      "duration": "2h 10min",
+      "genres": [
+        "Ação",
+        "Comédia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.9,
+      "director": "Taika Waititi",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
+      "synopsis": "Thor precisa escapar de outro universo para impedir a destruição de Asgard."
+    },
+    {
+      "id": 18,
+      "type": "movie",
+      "title": "Pantera Negra",
+      "year": 2018,
+      "duration": "2h 14min",
+      "genres": [
+        "Ação",
+        "Aventura"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.4,
+      "director": "Ryan Coogler",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
+      "synopsis": "T'Challa retorna a Wakanda para assumir o trono."
+    },
+    {
+      "id": 19,
+      "type": "movie",
+      "title": "Vingadores: Guerra Infinita",
+      "year": 2018,
+      "duration": "2h 29min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 8.3,
+      "director": "Anthony e Joe Russo",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+      "synopsis": "Os heróis tentam impedir Thanos de reunir as Joias do Infinito."
+    },
+    {
+      "id": 20,
+      "type": "movie",
+      "title": "Vingadores: Ultimato",
+      "year": 2019,
+      "duration": "3h 01min",
+      "genres": [
+        "Ação",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 8.4,
+      "director": "Anthony e Joe Russo",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+      "synopsis": "Os heróis sobreviventes elaboram um último plano para reverter o estalo de Thanos."
+    },
+    {
+      "id": 21,
+      "type": "series",
+      "title": "WandaVision",
+      "year": 2021,
+      "duration": "6 episódios",
+      "seasons": 1,
+      "episodes": 9,
+      "genres": [
+        "Drama",
+        "Mistério",
+        "Ficção científica"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.9,
+      "creator": "Jac Schaeffer",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/glKDfE6btIRcVB5zrjspRIs4r52.jpg",
+      "synopsis": "Wanda Maximoff e Visão vivem uma vida suburbana aparentemente perfeita."
+    },
+    {
+      "id": 22,
+      "type": "series",
+      "title": "Loki",
+      "year": 2021,
+      "duration": "2 temporadas",
+      "seasons": 2,
+      "episodes": 12,
+      "genres": [
+        "Ação",
+        "Aventura",
+        "Fantasia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 8.2,
+      "creator": "Michael Waldron",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/voHUmluYmKyleFkTu3lOXQG702u.jpg",
+      "synopsis": "Loki precisa consertar linhas do tempo quebradas após roubar o Tesseract."
+    },
+    {
+      "id": 23,
+      "type": "series",
+      "title": "Falcão e o Soldado Invernal",
+      "year": 2021,
+      "duration": "6 episódios",
+      "seasons": 1,
+      "episodes": 6,
+      "genres": [
+        "Ação",
+        "Aventura",
+        "Drama"
+      ],
+      "ageRating": "14 anos",
+      "rating": 7.2,
+      "creator": "Malcolm Spellman",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/6kbAMLteGO8yyewYau6bJ683sw7.jpg",
+      "synopsis": "Sam Wilson e Bucky Barnes unem forças em uma aventura global."
+    },
+    {
+      "id": 24,
+      "type": "series",
+      "title": "Gavião Arqueiro",
+      "year": 2021,
+      "duration": "6 episódios",
+      "seasons": 1,
+      "episodes": 6,
+      "genres": [
+        "Ação",
+        "Aventura",
+        "Comédia"
+      ],
+      "ageRating": "12 anos",
+      "rating": 7.5,
+      "creator": "Jonathan Igla",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/7iPENSM3pr7KtmVgQmZ8kF1Y4TQ.jpg",
+      "synopsis": "Clint Barton conhece a jovem arqueira Kate Bishop durante o Natal em Nova York."
+    },
+    {
+      "id": 25,
+      "type": "series",
+      "title": "Cavaleiro da Lua",
+      "year": 2022,
+      "duration": "6 episódios",
+      "seasons": 1,
+      "episodes": 6,
+      "genres": [
+        "Ação",
+        "Drama",
+        "Fantasia"
+      ],
+      "ageRating": "14 anos",
+      "rating": 7.3,
+      "creator": "Jeremy Slater",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/YksR65as1ppF8mN9q0g81Xy6rL.jpg",
+      "synopsis": "Steven Grant descobre que divide o corpo com o mercenário Marc Spector."
+    },
+    {
+      "id": 26,
+      "type": "series",
+      "title": "Ms. Marvel",
+      "year": 2022,
+      "duration": "6 episódios",
+      "seasons": 1,
+      "episodes": 6,
+      "genres": [
+        "Comédia",
+        "Aventura",
+        "Ficção científica"
+      ],
+      "ageRating": "10 anos",
+      "rating": 6.2,
+      "creator": "Bisha K. Ali",
+      "studio": "Marvel Studios",
+      "country": "Estados Unidos",
+      "language": "Inglês",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/m8YwXn1BBybEblpPtxPkwJ4kS4G.jpg",
+      "synopsis": "Kamala Khan descobre superpoderes e aprende a ser heroína."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "media-api",
+  "version": "1.0.0",
+  "description": "Teaching media API with Express and JWT",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node ./node_modules/nodemon/bin/nodemon.js src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
