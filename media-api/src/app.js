@@ -62,6 +62,19 @@ function normalizeMedia(media) {
   };
 }
 
+function toMediaSummary(media) {
+  return {
+    id: media.id,
+    type: media.type,
+    title: media.title,
+    year: media.year,
+    genres: media.genres,
+    ageRating: media.ageRating,
+    rating: media.rating,
+    imageUrl: media.imageUrl
+  };
+}
+
 function parsePositiveInteger(value, fallback, maximum) {
   const parsed = Number(value);
   if (!Number.isInteger(parsed) || parsed < 1) return fallback;
@@ -165,7 +178,7 @@ function createApp({ databasePath = defaultDatabasePath(), jwtSecret = process.e
       const limit = parsePositiveInteger(req.query.limit, 10, 50);
       const total = filteredMedia.length;
       return res.json({
-        data: filteredMedia.slice((page - 1) * limit, page * limit),
+        data: filteredMedia.slice((page - 1) * limit, page * limit).map(toMediaSummary),
         pagination: { page, limit, total, totalPages: Math.max(1, Math.ceil(total / limit)) },
       });
     } catch (error) {

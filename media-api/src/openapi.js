@@ -50,6 +50,20 @@ const openapi = {
       Media: {
         allOf: [{ $ref: "#/components/schemas/MediaInput" }, { type: "object", properties: { id: { type: "integer", example: 22 } } }]
       },
+      MediaSummary: {
+        type: "object",
+        description: "Compact representation used by GET /media.",
+        properties: {
+          id: { type: "integer", example: 22 },
+          type: { type: "string", enum: ["movie", "series"] },
+          title: { type: "string", example: "Loki" },
+          year: { type: "integer", example: 2021 },
+          genres: { type: "array", items: { type: "string" }, example: ["Ação", "Aventura"] },
+          ageRating: { type: "string", example: "12 anos" },
+          rating: { type: "number", example: 8.2 },
+          imageUrl: { type: "string", format: "uri" }
+        }
+      },
       Error: {
         type: "object",
         properties: { error: { type: "string" }, fields: { type: "array", items: { type: "string" } } }
@@ -97,7 +111,31 @@ const openapi = {
           { name: "page", in: "query", schema: { type: "integer", minimum: 1, default: 1 } },
           { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 50, default: 10 } }
         ],
-        responses: { 200: { description: "Filtered media list" }, 401: { $ref: "#/components/responses/Unauthorized" } }
+        responses: {
+          200: {
+            description: "Filtered compact media list",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    data: { type: "array", items: { $ref: "#/components/schemas/MediaSummary" } },
+                    pagination: {
+                      type: "object",
+                      properties: {
+                        page: { type: "integer" },
+                        limit: { type: "integer" },
+                        total: { type: "integer" },
+                        totalPages: { type: "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          401: { $ref: "#/components/responses/Unauthorized" }
+        }
       },
       post: {
         tags: ["Media"], summary: "Create a movie or series", security: [{ bearerAuth: [] }],

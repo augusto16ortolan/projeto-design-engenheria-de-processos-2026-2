@@ -71,6 +71,8 @@ GET /media?type=series&genre=Ação&yearFrom=2020&minRating=7&sort=rating&order=
 
 The response has `data` and `pagination` (`page`, `limit`, `total`, and `totalPages`).
 
+`GET /media` returns compact card data only: `id`, `type`, `title`, `year`, `genres`, `ageRating`, `rating`, and `imageUrl`. Use `GET /media/:id` to retrieve full details, including `synopsis`, duration, cast, studio, and other optional fields.
+
 ## Request examples
 
 ### Register

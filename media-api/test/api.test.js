@@ -64,12 +64,16 @@ test("JWT authentication, filtering, and media CRUD", async () => {
     response = await request(api.baseUrl, "/media?type=series&genre=action&yearFrom=2020&minRating=8&sort=rating&order=desc", { token });
     assert.equal(response.body.pagination.total, 1);
     assert.equal(response.body.data[0].title, "Loki");
+    assert.equal(response.body.data[0].synopsis, undefined);
+    assert.equal(response.body.data[0].duration, undefined);
     assert.deepEqual((await request(api.baseUrl, "/media/genres", { token })).body, ["Action", "Fantasy"]);
     assert.equal((await request(api.baseUrl, "/media", { method: "POST", token, body: { title: "Incomplete" } })).status, 400);
     response = await request(api.baseUrl, "/media", { method: "POST", token, body: newMedia });
     const id = response.body.id;
     assert.equal(response.status, 201);
-    assert.equal((await request(api.baseUrl, `/media/${id}`, { token })).body.title, "The Avengers");
+    response = await request(api.baseUrl, `/media/${id}`, { token });
+    assert.equal(response.body.title, "The Avengers");
+    assert.equal(response.body.synopsis, newMedia.synopsis);
     assert.equal((await request(api.baseUrl, `/media/${id}`, { method: "PUT", token, body: { ...newMedia, title: "Avengers" } })).body.title, "Avengers");
     assert.equal((await request(api.baseUrl, `/media/${id}`, { method: "DELETE", token })).status, 204);
     assert.equal((await request(api.baseUrl, `/media/${id}`, { token })).status, 404);
