@@ -6,19 +6,39 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
+import { login } from "../services/authService";
+
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("augusto@gmail.com");
+  const [email, setEmail] = useState("professor@media.dev");
   const [senha, setSenha] = useState("123456");
+  const [loading, setLoading] = useState(false);
 
-  function entrar() {
-    if (!email || !senha) {
-      return Alert.alert(
-        "Campos obrigatórios",
-        "Informe e-mail e senha para entrar.",
-      );
+  async function entrar() {
+    try {
+      if (!email || !senha) {
+        return Alert.alert(
+          "Campos obrigatórios",
+          "Informe e-mail e senha para entrar.",
+        );
+      }
+
+      setLoading(true);
+
+      const response = await login(email, senha);
+
+      if (!response.success) {
+        Alert.alert("Não foi possível entrar", response.message);
+        return;
+      }
+
+      navigation.replace("ListaObras", {
+        authInfo: response.authInfo,
+      });
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    navigation.navigate("ListaObras");
   }
 
   return (
@@ -62,8 +82,9 @@ export default function Login({ navigation }) {
             icon="login"
             onPress={entrar}
             contentStyle={styles.botao}
+            disabled={loading}
           >
-            Entrar
+            {loading ? "Carregando..." : "Entrar"}
           </Button>
           <Button
             mode="text"

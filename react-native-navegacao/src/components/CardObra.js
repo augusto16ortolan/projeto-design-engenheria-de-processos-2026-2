@@ -5,21 +5,21 @@ export default function CardObra({ obra, action }) {
   return (
     <Card style={styles.card} onPress={() => action(obra)}>
       <View style={styles.conteudo}>
-        <Image source={{ uri: obra.imagem }} style={styles.poster} />
+        <Image source={{ uri: obra.imageUrl }} style={styles.poster} />
         <View style={styles.informacoes}>
           <Text variant="titleMedium" style={styles.titulo}>
-            {obra.titulo}
+            {obra.title}
           </Text>
           <Text variant="bodyMedium">
-            {obra.ano} • {obra.duracao}
+            {obra.year} • {obra.ageRating}
           </Text>
           <Text variant="bodySmall" style={styles.genero}>
-            {obra.genero}
+            {obra.genres.join(", ")}
           </Text>
           <View style={styles.rodape}>
-            <Chip compact>{obra.tipo}</Chip>
+            <Chip compact>{obra.type === "movie" ? "Filme" : "Série"}</Chip>
             <Chip compact icon="star">
-              {obra.nota}
+              {obra.rating}
             </Chip>
           </View>
         </View>

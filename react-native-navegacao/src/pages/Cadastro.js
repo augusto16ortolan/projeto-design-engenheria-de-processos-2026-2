@@ -6,17 +6,37 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
+import { register } from "../services/authService";
+
 export default function Cadastro({ navigation }) {
   const [nome, setNome] = useState("Augusto");
   const [email, setEmail] = useState("augusto@gmail.com");
-  const [senha, setSenha] = useState("1234");
+  const [senha, setSenha] = useState("123456");
+  const [loading, setLoading] = useState(false);
 
-  function cadastrar() {
-    if (!nome || !email || !senha) {
-      return Alert.alert("Campos obrigatórios", "Preencha todos os campos.");
+  async function cadastrar() {
+    try {
+      if (!nome || !email || !senha) {
+        return Alert.alert("Campos obrigatórios", "Preencha todos os campos.");
+      }
+
+      setLoading(true);
+
+      const response = await register(nome, email, senha);
+
+      if (!response.success) {
+        Alert.alert("Não foi possível criar a conta", response.message);
+        return;
+      }
+
+      navigation.replace("ListaObras", {
+        authInfo: response.authInfo,
+      });
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    navigation.navigate("ListaObras");
   }
 
   return (
@@ -67,8 +87,9 @@ export default function Cadastro({ navigation }) {
             icon="account-plus"
             onPress={cadastrar}
             contentStyle={styles.botao}
+            disabled={loading}
           >
-            Criar conta
+            {loading ? "Carregando..." : "Criar conta"}
           </Button>
         </View>
 

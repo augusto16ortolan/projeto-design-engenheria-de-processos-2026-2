@@ -1,23 +1,49 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import {
   Alert,
   FlatList,
   StyleSheet,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Button, Text } from "react-native-paper";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 import CardObra from "../components/CardObra";
-import obras from "../data/obras";
+//import obras from "../data/obras";
+
+import { getMedias } from "../services/mediaService";
 
 const filtros = ["Todos", "Filmes", "Séries"];
-const tiposPorFiltro = { Filmes: "Filme", Séries: "Série" };
-
-export default function ListaObras({ navigation }) {
+export default function ListaObras({ navigation, route }) {
+  const { authInfo } = route.params;
   const [filtroAtivo, setFiltroAtivo] = useState("Todos");
+  const [obras, setObras] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getObras();
+  }, [filtroAtivo]);
+
+  async function getObras() {
+    try {
+      setLoading(true);
+      const response = await getMedias(authInfo.token, filtroAtivo);
+
+      if (!response.success) {
+        Alert.alert("Não foi possível carregar", response.message);
+        return;
+      }
+
+      setObras(response.medias);
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,17 +64,17 @@ export default function ListaObras({ navigation }) {
         );
       },
     });
-  }, []);
-
-  const obrasFiltradas = obras.filter((obra) => {
-    if (filtroAtivo === "Todos") return true;
-    return obra.tipo === tiposPorFiltro[filtroAtivo];
-  });
+  }, [navigation]);
 
   function selecionarObra(obra) {
     navigation.navigate("DetalheObra", {
-      obra: obra,
+      obraParam: obra,
+      authInfo: authInfo,
     });
+  }
+
+  if (loading) {
+    return <ActivityIndicator size={"large"} color={"red"} />;
   }
 
   return (
@@ -72,7 +98,7 @@ export default function ListaObras({ navigation }) {
         ))}
       </View>
       <FlatList
-        data={obrasFiltradas}
+        data={obras}
         renderItem={({ item }) => (
           <CardObra obra={item} action={selecionarObra} />
         )}

@@ -5,6 +5,12 @@
       "name": "Professor",
       "email": "professor@media.dev",
       "passwordHash": "$2b$10$sdH/xW6MZWgIaEnha79bJO0sr5rdg2bspYSZ5F99BxI2KnLN.QeS2"
+    },
+    {
+      "id": 2,
+      "name": "Augusto",
+      "email": "augusto@gmail.com",
+      "passwordHash": "$2b$10$dIzUzxK1JUMcPnaeR0dm7ON2sGqq/iKAoEil89jCMt8P2gPjIYPyu"
     }
   ],
   "media": [
