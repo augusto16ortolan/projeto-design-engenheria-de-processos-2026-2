@@ -3,15 +3,18 @@ import { MD3LightTheme, PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./src/routes/routes";
+import AuthProvider from "./src/context/AuthContext";
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={tema}>
-        <NavigationContainer>
-          <StatusBar style="dark" />
-          <Routes />
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer>
+            <StatusBar style="dark" />
+            <Routes />
+          </NavigationContainer>
+        </AuthProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );

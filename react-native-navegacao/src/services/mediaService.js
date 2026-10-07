@@ -1,6 +1,6 @@
 import api from "./api";
 
-export async function getMedias(token, filtro) {
+export async function getMedias(filtro) {
   try {
     const type =
       filtro === "Filmes" ? "movie" : filtro === "Séries" ? "series" : "";
@@ -9,9 +9,6 @@ export async function getMedias(token, filtro) {
       params: {
         limit: 50,
         ...(type && { type }),
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -39,13 +36,9 @@ export async function getMedias(token, filtro) {
   }
 }
 
-export async function getMediaById(token, id) {
+export async function getMediaById(id) {
   try {
-    const response = await api.get(`/media/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`/media/${id}`);
 
     const media = response.data;
 

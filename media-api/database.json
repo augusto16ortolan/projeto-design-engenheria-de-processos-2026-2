@@ -11,6 +11,18 @@
       "name": "Augusto",
       "email": "augusto@gmail.com",
       "passwordHash": "$2b$10$dIzUzxK1JUMcPnaeR0dm7ON2sGqq/iKAoEil89jCMt8P2gPjIYPyu"
+    },
+    {
+      "id": 3,
+      "name": "Augusto",
+      "email": "augusto1@gmail.com",
+      "passwordHash": "$2b$10$vgihSThdHU85scIcSY1UXeFN3GFxas.8tzLm/sBURFp.nHwm5Fgn."
+    },
+    {
+      "id": 4,
+      "name": "Augusto",
+      "email": "augusto2@gmail.com",
+      "passwordHash": "$2b$10$T0eMSq6FghQD/zHZhXQx4.ToOX.uJvOzBjExA3/rL7YzosnpqVS0e"
     }
   ],
   "media": [

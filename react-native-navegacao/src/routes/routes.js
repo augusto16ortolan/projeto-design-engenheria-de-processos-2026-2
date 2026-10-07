@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button, Alert } from "react-native";
 
+const StackAuth = createNativeStackNavigator();
 const StackApp = createNativeStackNavigator();
 
 import Login from "../pages/Login";
@@ -9,16 +10,18 @@ import ListaObras from "../pages/ListaObras";
 import DetalheObra from "../pages/DetalheObra";
 import InformacoesDesenvolvedor from "../pages/InformacoesDesenvolvedor";
 
-export default function Routes() {
+import { useAuth } from "../context/AuthContext";
+
+function AuthRoutes() {
   return (
-    <StackApp.Navigator
+    <StackAuth.Navigator
       initialRouteName="Login"
       screenOptions={{
         //headerShown: false,
         headerBackTitle: "Voltar",
       }}
     >
-      <StackApp.Screen
+      <StackAuth.Screen
         name="Login"
         component={Login}
         options={{
@@ -30,7 +33,14 @@ export default function Routes() {
           },
         }}
       />
-      <StackApp.Screen name="Cadastro" component={Cadastro} />
+      <StackAuth.Screen name="Cadastro" component={Cadastro} />
+    </StackAuth.Navigator>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <StackApp.Navigator initialRouteName="ListaObras">
       <StackApp.Screen
         name="ListaObras"
         component={ListaObras}
@@ -43,10 +53,17 @@ export default function Routes() {
       <StackApp.Screen
         options={{
           headerTitle: "Informações",
+          headerBackTitle: "Voltar",
         }}
         name="InformacoesDesenvolvedor"
         component={InformacoesDesenvolvedor}
       />
     </StackApp.Navigator>
   );
+}
+
+export default function Routes() {
+  const { authenticated } = useAuth();
+
+  return authenticated ? <AppRoutes /> : <AuthRoutes />;
 }

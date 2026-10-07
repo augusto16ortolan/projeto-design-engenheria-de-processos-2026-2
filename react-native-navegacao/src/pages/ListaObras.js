@@ -16,12 +16,14 @@ import CardObra from "../components/CardObra";
 
 import { getMedias } from "../services/mediaService";
 
+import { useAuth } from "../context/AuthContext";
+
 const filtros = ["Todos", "Filmes", "Séries"];
-export default function ListaObras({ navigation, route }) {
-  const { authInfo } = route.params;
+export default function ListaObras({ navigation }) {
   const [filtroAtivo, setFiltroAtivo] = useState("Todos");
   const [obras, setObras] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { sair, user } = useAuth();
 
   useEffect(() => {
     getObras();
@@ -30,7 +32,7 @@ export default function ListaObras({ navigation, route }) {
   async function getObras() {
     try {
       setLoading(true);
-      const response = await getMedias(authInfo.token, filtroAtivo);
+      const response = await getMedias(filtroAtivo);
 
       if (!response.success) {
         Alert.alert("Não foi possível carregar", response.message);
@@ -47,9 +49,10 @@ export default function ListaObras({ navigation, route }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitle: `Olá, ${user.name}`,
       headerLeft: () => {
         return (
-          <TouchableOpacity onPress={() => navigation.replace("Login")}>
+          <TouchableOpacity onPress={() => sair()}>
             <MaterialIcons name="logout" size={24} color="black" />
           </TouchableOpacity>
         );
@@ -69,7 +72,6 @@ export default function ListaObras({ navigation, route }) {
   function selecionarObra(obra) {
     navigation.navigate("DetalheObra", {
       obraParam: obra,
-      authInfo: authInfo,
     });
   }
 

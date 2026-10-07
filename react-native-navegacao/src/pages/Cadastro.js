@@ -6,13 +6,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
-import { register } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 export default function Cadastro({ navigation }) {
   const [nome, setNome] = useState("Augusto");
   const [email, setEmail] = useState("augusto@gmail.com");
   const [senha, setSenha] = useState("123456");
   const [loading, setLoading] = useState(false);
+
+  const { cadastrar: register } = useAuth();
 
   async function cadastrar() {
     try {
@@ -24,14 +26,10 @@ export default function Cadastro({ navigation }) {
 
       const response = await register(nome, email, senha);
 
-      if (!response.success) {
+      if (!response) {
         Alert.alert("Não foi possível criar a conta", response.message);
         return;
       }
-
-      navigation.replace("ListaObras", {
-        authInfo: response.authInfo,
-      });
     } catch (error) {
       Alert.alert(error.message);
     } finally {

@@ -6,12 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CampoTexto from "../components/CampoTexto";
 import LogoMarvel from "../components/LogoMarvel";
 
-import { login } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("professor@media.dev");
   const [senha, setSenha] = useState("123456");
   const [loading, setLoading] = useState(false);
+
+  const { entrar: login } = useAuth();
 
   async function entrar() {
     try {
@@ -26,14 +28,10 @@ export default function Login({ navigation }) {
 
       const response = await login(email, senha);
 
-      if (!response.success) {
-        Alert.alert("Não foi possível entrar", response.message);
+      if (!response) {
+        Alert.alert("Não foi possível entrar");
         return;
       }
-
-      navigation.replace("ListaObras", {
-        authInfo: response.authInfo,
-      });
     } catch (error) {
       Alert.alert(error.message);
     } finally {
