@@ -1,0 +1,60 @@
+// LIBS PARA INSTALAR
+
+npx expo install @supabase/supabase-js @react-native-async-storage/async-storage react-native-url-polyfill
+
+
+// CONFIGURACAO COM ASYNC STORAGE
+
+import { AppState, Platform } from "react-native";
+import "react-native-url-polyfill/auto";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createClient } from "@supabase/supabase-js";
+
+export const supabase = createClient(
+  process.env.EXPO_PUBLIC_SUPABASE_URL,
+  process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
+  },
+);
+
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
+
+
+//INICIAR APP JA LOGANDO NA CONTA LOGADA ANTERIORMENTE
+
+import { useEffect, useState } from "react";
+import { supabase } from "../services/supabaseClient";
+import { userFromSupabase } from "../services/supabaseMappers";
+
+const [initializing, setInitializing] = useState(true);
+
+useEffect(() => {
+  function updateUser(session) {
+    setUser(session ? userFromSupabase(session.user) : null);
+    setInitializing(false);
+  }
+
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    updateUser(session);
+  });
+
+  const { data: listener } = supabase.auth.onAuthStateChange(
+    (_event, session) => updateUser(session),
+  );
+
+  return () => listener.subscription.unsubscribe();
+}, []);
+
+

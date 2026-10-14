@@ -1,0 +1,28 @@
+{
+  "users": [
+    { "id": "user-demo-1", "name": "Ana Silva", "email": "ana@exemplo.com", "password": "123456" },
+    { "id": "user-demo-2", "name": "Bruno Costa", "email": "bruno@exemplo.com", "password": "123456" }
+  ],
+  "works": [
+    {
+      "id": "work-1", "userId": "user-demo-1", "type": "movie", "title": "Duna: Parte Dois",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+      "synopsis": "Paul Atreides se une a Chani e aos Fremen enquanto busca vingança contra quem destruiu sua família.", "status": "watched"
+    },
+    {
+      "id": "work-2", "userId": "user-demo-1", "type": "series", "title": "The Bear",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/sHFlb1O3qA5vyVdyxZ0xR8GZPGF.jpg",
+      "synopsis": "Um jovem chef retorna a Chicago para administrar a lanchonete da família.", "status": "watching"
+    },
+    {
+      "id": "work-3", "userId": "user-demo-1", "type": "movie", "title": "A Viagem de Chihiro",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+      "synopsis": "Uma menina atravessa um mundo de espíritos e tenta salvar seus pais.", "status": "want_to_watch"
+    },
+    {
+      "id": "work-4", "userId": "user-demo-2", "type": "series", "title": "Ruptura",
+      "imageUrl": "https://image.tmdb.org/t/p/w500/lF9hK9p0h5J35RSR8cV9VYQn2e.jpg",
+      "synopsis": "Funcionários passam por um procedimento que separa as memórias do trabalho e da vida pessoal.", "status": "want_to_watch"
+    }
+  ]
+}
