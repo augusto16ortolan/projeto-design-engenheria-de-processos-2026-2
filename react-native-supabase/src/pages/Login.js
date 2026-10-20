@@ -10,8 +10,8 @@ import { useAuth } from "../context/AuthContext";
 import { getErrorMessage } from "../utils/error";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("ana@exemplo.com");
-  const [senha, setSenha] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { entrar: login } = useAuth();
@@ -84,17 +84,6 @@ export default function Login({ navigation }) {
             disabled={loading}
           >
             {loading ? "Carregando..." : "Entrar"}
-          </Button>
-          <Button
-            mode="text"
-            onPress={() =>
-              Alert.alert(
-                "Recuperar senha",
-                "A recuperação de senha será adicionada na integração com Supabase.",
-              )
-            }
-          >
-            Esqueci minha senha
           </Button>
         </View>
 

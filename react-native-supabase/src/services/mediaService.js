@@ -1,11 +1,6 @@
-import {
-  addWork,
-  findWorkById,
-  listWorksByUser,
-  removeWork,
-  replaceWork,
-} from "./mockStore";
 import { getErrorMessage } from "../utils/error";
+import { supabase } from "../../supabase/supabase";
+import { workFromSupabase, workToSupabase } from "./supabaseMappers";
 
 const VALID_TYPES = ["movie", "series"];
 const VALID_STATUSES = ["want_to_watch", "watching", "watched"];
@@ -32,7 +27,19 @@ function validateWork(data) {
 
 export async function getMedias(userId, filters) {
   try {
-    return { success: true, medias: listWorksByUser(userId, filters) };
+    let query = supabase
+      .from("works")
+      .select("*")
+      .eq("user_id", userId)
+      .order("title", { ascending: true });
+
+    if (filters?.type) query = query.eq("type", filters.type);
+    if (filters?.status) query = query.eq("status", filters.status);
+
+    const { data, error } = await query;
+    if (error) return { success: false, message: error.message };
+
+    return { success: true, medias: data.map(workFromSupabase) };
   } catch (error) {
     return {
       success: false,
@@ -43,7 +50,16 @@ export async function getMedias(userId, filters) {
 
 export async function getMediaById(id, userId) {
   try {
-    const media = findWorkById(id, userId);
+    const { data, error } = await supabase
+      .from("works")
+      .select("*")
+      .eq("id", id)
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) return { success: false, message: error.message };
+
+    const media = data ? workFromSupabase(data) : null;
     return media
       ? { success: true, media }
       : { success: false, message: "Obra não encontrada." };
@@ -59,7 +75,15 @@ export async function createMedia(userId, data) {
   try {
     const message = validateWork(data);
     if (message) return { success: false, message };
-    return { success: true, media: addWork(normalizeWork(data, userId)) };
+
+    const { data: createdWork, error } = await supabase
+      .from("works")
+      .insert(workToSupabase(normalizeWork(data, userId), userId))
+      .select()
+      .single();
+
+    if (error) return { success: false, message: error.message };
+    return { success: true, media: workFromSupabase(createdWork) };
   } catch (error) {
     return {
       success: false,
@@ -72,7 +96,18 @@ export async function updateMedia(id, userId, data) {
   try {
     const message = validateWork(data);
     if (message) return { success: false, message };
-    const media = replaceWork(id, userId, normalizeWork(data, userId));
+
+    const { data: updatedWork, error } = await supabase
+      .from("works")
+      .update(workToSupabase(normalizeWork(data, userId), userId))
+      .eq("id", id)
+      .eq("user_id", userId)
+      .select()
+      .maybeSingle();
+
+    if (error) return { success: false, message: error.message };
+
+    const media = updatedWork ? workFromSupabase(updatedWork) : null;
     return media
       ? { success: true, media }
       : { success: false, message: "Obra não encontrada." };
@@ -86,7 +121,17 @@ export async function updateMedia(id, userId, data) {
 
 export async function deleteMedia(id, userId) {
   try {
-    return removeWork(id, userId)
+    const { data, error } = await supabase
+      .from("works")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", userId)
+      .select("id")
+      .maybeSingle();
+
+    if (error) return { success: false, message: error.message };
+
+    return data
       ? { success: true }
       : { success: false, message: "Obra não encontrada." };
   } catch (error) {

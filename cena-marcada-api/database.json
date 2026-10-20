@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "id": "a4fbfb49-2d4e-4a01-8ee3-12976d0d48ed",
+      "name": "Professor",
+      "email": "professor@cenamarcada.dev",
+      "passwordHash": "$2b$10$sdH/xW6MZWgIaEnha79bJO0sr5rdg2bspYSZ5F99BxI2KnLN.QeS2"
+    }
+  ],
+  "works": [
+    {
+      "id": "18b4c5cb-bc22-4c01-ae44-5a9ab5643bac",
+      "userId": "a4fbfb49-2d4e-4a01-8ee3-12976d0d48ed",
+      "type": "movie",
+      "title": "Duna: Parte Dois",
+      "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80",
+      "synopsis": "Paul Atreides une-se aos Fremen para proteger Arrakis.",
+      "status": "watched"
+    },
+    {
+      "id": "f4ea8960-9ef0-485b-8302-28b12169c3aa",
+      "userId": "a4fbfb49-2d4e-4a01-8ee3-12976d0d48ed",
+      "type": "series",
+      "title": "The Last of Us",
+      "imageUrl": "",
+      "synopsis": "Uma jornada de sobrevivência após o colapso da civilização.",
+      "status": "want_to_watch"
+    }
+  ]
+}

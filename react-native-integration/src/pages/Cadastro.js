@@ -1,0 +1,135 @@
+import { useState } from "react";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import CampoTexto from "../components/CampoTexto";
+import LogoApp from "../components/LogoApp";
+
+import { useAuth } from "../context/AuthContext";
+import { getErrorMessage } from "../utils/error";
+
+export default function Cadastro({ navigation }) {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("123456");
+  const [loading, setLoading] = useState(false);
+
+  const { cadastrar: register } = useAuth();
+
+  async function cadastrar() {
+    try {
+      if (!nome || !email || !senha) {
+        return Alert.alert("Campos obrigatórios", "Preencha todos os campos.");
+      }
+
+      setLoading(true);
+
+      const response = await register(nome, email, senha);
+
+      if (!response.success) {
+        Alert.alert("Não foi possível criar a conta", response.message);
+        return;
+      }
+    } catch (error) {
+      Alert.alert(
+        "Não foi possível criar a conta",
+        getErrorMessage(error, "Tente novamente em instantes."),
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.safeArea} edges={[]}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.cabecalho}>
+          <LogoApp tamanho="grande" />
+          <Text variant="titleLarge" style={styles.marca}>
+            CENA MARCADA
+          </Text>
+          <Text variant="bodyLarge" style={styles.chamada}>
+            Seu controle pessoal de filmes e séries.
+          </Text>
+        </View>
+
+        <View style={styles.formulario}>
+          <Text variant="headlineSmall" style={styles.titulo}>
+            Crie sua conta
+          </Text>
+          <Text variant="bodyMedium" style={styles.subtitulo}>
+            Organize o que você quer assistir e o que já viu.
+          </Text>
+          <CampoTexto
+            label="Nome completo"
+            valor={nome}
+            setValor={setNome}
+            autoCapitalize="words"
+          />
+          <CampoTexto
+            label="E-mail"
+            valor={email}
+            setValor={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+          <CampoTexto
+            label="Senha"
+            valor={senha}
+            setValor={setSenha}
+            secureTextEntry
+          />
+          <Button
+            mode="contained"
+            icon="account-plus"
+            onPress={cadastrar}
+            contentStyle={styles.botao}
+            disabled={loading}
+          >
+            {loading ? "Carregando..." : "Criar conta"}
+          </Button>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safeArea: { backgroundColor: "#FFFFFF", flex: 1 },
+  scroll: { flexGrow: 1, paddingBottom: 32 },
+  cabecalho: {
+    alignItems: "center",
+    backgroundColor: "#E62429",
+    borderBottomLeftRadius: 38,
+    borderBottomRightRadius: 38,
+    paddingBottom: 30,
+    paddingTop: 28,
+  },
+  marca: {
+    color: "#FFFFFF",
+    fontWeight: "800",
+    letterSpacing: 2,
+    marginTop: 10,
+  },
+  chamada: { color: "#FFE7E8", marginTop: 6 },
+  formulario: { marginHorizontal: 28, marginTop: 30 },
+  titulo: { fontWeight: "800", marginTop: 6 },
+  subtitulo: {
+    color: "#5F6368",
+    lineHeight: 20,
+    marginBottom: 28,
+    marginTop: 6,
+  },
+  botao: { paddingVertical: 7 },
+  termos: {
+    color: "#6B6B70",
+    lineHeight: 18,
+    marginHorizontal: 30,
+    marginTop: 20,
+    textAlign: "center",
+  },
+});
