@@ -8,14 +8,15 @@
 // Body: { name, email, password }
 // Resposta: { user: { id, name, email }, token }
 
-const pendingMessage = "A integração com a API será implementada durante a aula.";
+const pendingMessage =
+  "A integração com a API será implementada durante a aula.";
 
 export async function login(_email, _password) {
-  // Use apiRequest("/auth/login", { method: "POST", body: { email, password } }).
+  // Use api.post("/auth/login", { email, password }).
   return { success: false, message: pendingMessage };
 }
 
 export async function register(_name, _email, _password) {
-  // Use apiRequest("/auth/register", { method: "POST", body: { name, email, password } }).
+  // Use api.post("/auth/register", { name, email, password }).
   return { success: false, message: pendingMessage };
 }

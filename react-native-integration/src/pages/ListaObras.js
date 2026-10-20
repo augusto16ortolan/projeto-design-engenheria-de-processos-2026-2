@@ -30,12 +30,12 @@ export default function ListaObras({ navigation }) {
   const [type, setType] = useState(ALL);
   const [obras, setObras] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { sair, token, user } = useAuth();
+  const { sair, user } = useAuth();
 
   const getObras = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getMedias(token, {
+      const response = await getMedias({
         status: status === ALL ? undefined : status,
         type: type === ALL ? undefined : type,
       });
@@ -43,11 +43,14 @@ export default function ListaObras({ navigation }) {
         return Alert.alert("Não foi possível carregar", response.message);
       setObras(response.medias);
     } catch (error) {
-      Alert.alert("Não foi possível carregar", getErrorMessage(error, "Tente atualizar a lista."));
+      Alert.alert(
+        "Não foi possível carregar",
+        getErrorMessage(error, "Tente atualizar a lista."),
+      );
     } finally {
       setLoading(false);
     }
-  }, [status, token, type]);
+  }, [status, type]);
 
   useFocusEffect(
     useCallback(() => {

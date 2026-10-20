@@ -34,7 +34,10 @@ export default function Login({ navigation }) {
         return;
       }
     } catch (error) {
-      Alert.alert("Não foi possível entrar", getErrorMessage(error, "Tente novamente em instantes."));
+      Alert.alert(
+        "Não foi possível entrar",
+        getErrorMessage(error, "Tente novamente em instantes."),
+      );
     } finally {
       setLoading(false);
     }

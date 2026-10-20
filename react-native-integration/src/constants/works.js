@@ -14,7 +14,9 @@ export function workTypeLabel(type) {
 }
 
 export function workStatusLabel(status) {
-  return WORK_STATUSES.find((item) => item.value === status)?.label || "Sem status";
+  return (
+    WORK_STATUSES.find((item) => item.value === status)?.label || "Sem status"
+  );
 }
 
 export function workStatusIcon(status) {

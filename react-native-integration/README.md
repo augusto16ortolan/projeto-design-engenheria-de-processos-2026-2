@@ -22,12 +22,12 @@ No celular, `localhost` aponta para o próprio dispositivo, não para o computad
 
 ## Arquivos para completar na aula
 
-1. `src/services/api.js`: implementar o cliente HTTP e os headers Bearer.
+1. `src/services/api.js`: completar o cliente Axios e os headers Bearer.
 2. `src/services/authService.js`: implementar cadastro e login usando `/auth/register` e `/auth/login`.
 3. `src/context/AuthContext.js`: persistir o JWT no AsyncStorage e restaurar a sessão em `/auth/me`.
 4. `src/services/mediaService.js`: implementar listagem, filtros e CRUD em `/works`.
 
-As telas já recebem o `token` do contexto e passam esse valor às funções de serviço. Não há requisições nem persistência implementadas ainda.
+O contexto será responsável por configurar o token no interceptor Axios; as telas não precisam repassá-lo para cada função de serviço. Não há requisições nem persistência implementadas ainda.
 
 ## Contratos da Cena Marcada API
 

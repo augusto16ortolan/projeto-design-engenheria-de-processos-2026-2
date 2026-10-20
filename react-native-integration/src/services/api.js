@@ -1,18 +1,29 @@
-// ETAPA 1 DA AULA — cliente HTTP
+import axios from "axios";
+
+// ETAPA 1 DA AULA — cliente Axios
 //
-// Configure EXPO_PUBLIC_API_URL no .env.
-// Depois implemente apiRequest para:
-// - montar a URL com base nessa variável;
-// - enviar Content-Type: application/json;
-// - enviar Authorization: Bearer <token> quando existir;
-// - converter a resposta JSON e lançar o erro retornado pela API.
+// Configure EXPO_PUBLIC_API_URL no .env. O client já centraliza a URL base
+// e o header JSON. Durante a aula, complete o interceptor para incluir
+// Authorization: Bearer <token> quando houver uma sessão autenticada.
 
-const baseUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, "");
+const baseURL = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, "");
+let authToken = null;
 
-export async function apiRequest(_path, _options = {}) {
-  if (!baseUrl) {
-    throw new Error("Configure EXPO_PUBLIC_API_URL no arquivo .env.");
+const api = axios.create({
+  baseURL,
+  headers: { "Content-Type": "application/json" },
+});
+
+api.interceptors.request.use((config) => {
+  // Quando o token for restaurado ou obtido no login, use setAuthToken(token).
+  if (authToken) {
+    config.headers.Authorization = `Bearer ${authToken}`;
   }
+  return config;
+});
 
-  throw new Error("Cliente HTTP ainda não implementado.");
+export function setAuthToken(token) {
+  authToken = token;
 }
+
+export default api;

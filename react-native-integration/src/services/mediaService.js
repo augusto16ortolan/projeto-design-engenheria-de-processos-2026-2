@@ -10,29 +10,30 @@
 // Work: { id, userId, type, title, imageUrl, synopsis, status }
 // O servidor define userId pelo token. Nunca envie userId no body.
 
-const pendingMessage = "A integração com a API será implementada durante a aula.";
+const pendingMessage =
+  "A integração com a API será implementada durante a aula.";
 
-export async function getMedias(_token, _filters) {
+export async function getMedias(_filters) {
   // Monte a query string para type e status e use GET /works.
   return { success: false, message: pendingMessage };
 }
 
-export async function getMediaById(_id, _token) {
+export async function getMediaById(_id) {
   // Use GET /works/:id.
   return { success: false, message: pendingMessage };
 }
 
-export async function createMedia(_token, _data) {
+export async function createMedia(_data) {
   // Valide o formulário e use POST /works.
   return { success: false, message: pendingMessage };
 }
 
-export async function updateMedia(_id, _token, _data) {
+export async function updateMedia(_id, _data) {
   // Valide o formulário e use PUT /works/:id.
   return { success: false, message: pendingMessage };
 }
 
-export async function deleteMedia(_id, _token) {
+export async function deleteMedia(_id) {
   // Use DELETE /works/:id.
   return { success: false, message: pendingMessage };
 }

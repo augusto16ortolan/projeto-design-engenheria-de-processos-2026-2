@@ -1,5 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ActivityIndicator, Alert, Button, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  StyleSheet,
+  View,
+} from "react-native";
 
 const StackAuth = createNativeStackNavigator();
 const StackApp = createNativeStackNavigator();
