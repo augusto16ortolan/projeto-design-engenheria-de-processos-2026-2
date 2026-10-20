@@ -24,7 +24,6 @@ function AuthRoutes() {
     <StackAuth.Navigator
       initialRouteName="Login"
       screenOptions={{
-        //headerShown: false,
         headerBackTitle: "Voltar",
       }}
     >
