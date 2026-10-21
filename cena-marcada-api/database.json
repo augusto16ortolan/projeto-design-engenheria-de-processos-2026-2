@@ -5,18 +5,21 @@
       "name": "Professor",
       "email": "professor@cenamarcada.dev",
       "passwordHash": "$2b$10$sdH/xW6MZWgIaEnha79bJO0sr5rdg2bspYSZ5F99BxI2KnLN.QeS2"
+    },
+    {
+      "id": "3a884b75-7fe8-4a6e-a470-2ca878405075",
+      "name": "Augusto Ortolan",
+      "email": "augusto@gmail.com",
+      "passwordHash": "$2b$10$Oi4bBKKLbLsJ5.2FwwBDjujqwEFB7MO5nqs5IsLZcAPxJXMvl7zmG"
+    },
+    {
+      "id": "df8774a2-fe05-4efe-aae4-4b500fdb05a3",
+      "name": "Augusto Ortolan",
+      "email": "augusto2@gmail.com",
+      "passwordHash": "$2b$10$c2MZpj8GiwMYxe2ocO4oWutQ5aR0MjKQILnMC/Zxua5isAdXJww0a"
     }
   ],
   "works": [
-    {
-      "id": "18b4c5cb-bc22-4c01-ae44-5a9ab5643bac",
-      "userId": "a4fbfb49-2d4e-4a01-8ee3-12976d0d48ed",
-      "type": "movie",
-      "title": "Duna: Parte Dois",
-      "imageUrl": "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-      "synopsis": "Paul Atreides une-se aos Fremen para proteger Arrakis.",
-      "status": "watched"
-    },
     {
       "id": "f4ea8960-9ef0-485b-8302-28b12169c3aa",
       "userId": "a4fbfb49-2d4e-4a01-8ee3-12976d0d48ed",
@@ -43,6 +46,15 @@
       "imageUrl": "https://image.tmdb.org/t/p/w500/sHFlb2NqbB6eg6rIi5v2QxaMuvQ.jpg",
       "synopsis": "Um chef retorna a Chicago para administrar a lanchonete da família.",
       "status": "want_to_watch"
+    },
+    {
+      "id": "7725886d-e090-4e07-aeed-9aa3a02fdee4",
+      "userId": "3a884b75-7fe8-4a6e-a470-2ca878405075",
+      "type": "movie",
+      "title": "Batalha dos Aflitos",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/pt/9/98/Poster_A_Batalha_dos_Aflitos.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original",
+      "synopsis": "O que o Grêmio vai reviver em 2027 e tomara que fique pra sempre",
+      "status": "watching"
     }
   ]
 }

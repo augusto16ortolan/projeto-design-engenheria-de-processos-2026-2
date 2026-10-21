@@ -1,14 +1,55 @@
+import { getErrorMessage } from "../utils/error";
+import api from "./api";
+
 function normalizeEmail(email) {
   return email.trim().toLowerCase();
 }
 
-const pendingMessage =
-  "A integração com a API será implementada durante a aula.";
-
 export async function login(_email, _password) {
-  return { success: false, message: pendingMessage };
+  try {
+    const response = await api.post("/auth/login", {
+      email: normalizeEmail(_email),
+      password: _password,
+    });
+
+    const data = response.data;
+
+    return {
+      token: data.token,
+      user: data.user,
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.error ||
+        getErrorMessage(error, "Não foi possível entrar agora."),
+    };
+  }
 }
 
 export async function register(_name, _email, _password) {
-  return { success: false, message: pendingMessage };
+  try {
+    const response = await api.post("/auth/register", {
+      name: _name,
+      email: normalizeEmail(_email),
+      password: _password,
+    });
+
+    const data = response.data;
+
+    return {
+      token: data.token,
+      user: data.user,
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.error ||
+        getErrorMessage(error, "Não foi possível cadastrar agora."),
+    };
+  }
 }

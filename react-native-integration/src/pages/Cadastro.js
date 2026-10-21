@@ -12,7 +12,7 @@ import { getErrorMessage } from "../utils/error";
 export default function Cadastro({ navigation }) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("123456");
+  const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { cadastrar: register } = useAuth();
