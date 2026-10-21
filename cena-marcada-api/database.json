@@ -55,6 +55,33 @@
       "imageUrl": "https://upload.wikimedia.org/wikipedia/pt/9/98/Poster_A_Batalha_dos_Aflitos.jpg?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original",
       "synopsis": "O que o Grêmio vai reviver em 2027 e tomara que fique pra sempre",
       "status": "watching"
+    },
+    {
+      "id": "960086c4-7b37-4ad0-8ebb-77965d6c2d90",
+      "userId": "3a884b75-7fe8-4a6e-a470-2ca878405075",
+      "type": "movie",
+      "title": "teste",
+      "imageUrl": "https://res.cloudinary.com/dxufykpdp/image/upload/v1792626720/papukerln6yazkrmbpjr.jpg",
+      "synopsis": "",
+      "status": "want_to_watch"
+    },
+    {
+      "id": "3b42bb8d-df9f-4373-8c7b-cd90fa4a2285",
+      "userId": "3a884b75-7fe8-4a6e-a470-2ca878405075",
+      "type": "movie",
+      "title": "teste",
+      "imageUrl": "https://res.cloudinary.com/dxufykpdp/image/upload/v1792626789/t8xbe4wg7wmxapfs4wkv.jpg",
+      "synopsis": "",
+      "status": "want_to_watch"
+    },
+    {
+      "id": "4fff6c95-20b6-436d-9c21-9aa977259806",
+      "userId": "3a884b75-7fe8-4a6e-a470-2ca878405075",
+      "type": "movie",
+      "title": "Teeter",
+      "imageUrl": "https://res.cloudinary.com/dxufykpdp/image/upload/v1792626822/ukfvr18k7nmasob8abps.jpg",
+      "synopsis": "",
+      "status": "want_to_watch"
     }
   ]
 }

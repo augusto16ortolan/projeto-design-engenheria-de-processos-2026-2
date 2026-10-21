@@ -1,11 +1,20 @@
 import { useLayoutEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button, SegmentedButtons, Text } from "react-native-paper";
+import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
 import CampoTexto from "../components/CampoTexto";
 import { WORK_STATUSES, WORK_TYPES } from "../constants/works";
 import { createMedia, updateMedia } from "../services/mediaService";
 import { getErrorMessage } from "../utils/error";
 import { hasValidationErrors, validateWork } from "../utils/validation";
+import { uploadProductImage } from "../services/uploadService";
 
 function formFromWork(work) {
   return {
@@ -21,6 +30,8 @@ export default function FormularioObra({ route, navigation }) {
   const work = route.params?.obraParam;
   const [form, setForm] = useState(() => formFromWork(work));
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [imageAsset, setImageAsset] = useState(null);
   const [errors, setErrors] = useState({});
   const editing = Boolean(work?.id);
 
@@ -34,6 +45,48 @@ export default function FormularioObra({ route, navigation }) {
     setErrors((current) => ({ ...current, [field]: undefined }));
   }
 
+  async function selectImage(source) {
+    try {
+      const permission =
+        source === "camera"
+          ? await ImagePicker.requestCameraPermissionsAsync()
+          : await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          "Permissão necessária",
+          source === "camera"
+            ? "Permita o acesso à câmera para tirar uma foto."
+            : "Permita o acesso às fotos para escolher uma imagem.",
+        );
+        return;
+      }
+
+      const options = {
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [2, 5],
+        quality: 0.8,
+        base64: true,
+      };
+      const result =
+        source === "camera"
+          ? await ImagePicker.launchCameraAsync(options)
+          : await ImagePicker.launchImageLibraryAsync(options);
+
+      if (!result.canceled) setImageAsset(result.assets[0]);
+    } catch (error) {
+      Alert.alert(
+        "Não foi possível selecionar",
+        getErrorMessage(error, "Tente novamente em instantes."),
+      );
+    }
+  }
+
+  function removeImage() {
+    setImageAsset(null);
+    updateField("imageUrl", "");
+  }
+
   async function save() {
     const validationErrors = validateWork(form);
     setErrors(validationErrors);
@@ -41,10 +94,17 @@ export default function FormularioObra({ route, navigation }) {
 
     try {
       setLoading(true);
+      let imageUrl = form.imageUrl.trim();
+      if (imageAsset) {
+        setUploading(true);
+        const uploadUrl = await uploadProductImage(imageAsset);
+        setUploading(false);
+        imageUrl = uploadUrl;
+      }
       const payload = {
         ...form,
         title: form.title.trim(),
-        imageUrl: form.imageUrl.trim(),
+        imageUrl,
         synopsis: form.synopsis.trim(),
       };
       const response = editing
@@ -59,6 +119,7 @@ export default function FormularioObra({ route, navigation }) {
         getErrorMessage(error, "Tente novamente em instantes."),
       );
     } finally {
+      setUploading(false);
       setLoading(false);
     }
   }
@@ -86,14 +147,45 @@ export default function FormularioObra({ route, navigation }) {
         setValor={(value) => updateField("title", value)}
         erro={errors.title}
       />
-      <CampoTexto
-        label="URL da imagem (opcional)"
-        valor={form.imageUrl}
-        setValor={(value) => updateField("imageUrl", value)}
-        erro={errors.imageUrl}
-        autoCapitalize="none"
-        keyboardType="url"
-      />
+      <Text variant="titleMedium" style={styles.rotulo}>
+        Capa
+      </Text>
+      {imageAsset || form.imageUrl ? (
+        <View style={styles.imagemContainer}>
+          <Image
+            source={imageAsset?.uri || form.imageUrl}
+            style={styles.imagem}
+            contentFit="cover"
+            transition={200}
+          />
+          <Button
+            mode="outlined"
+            icon="delete-outline"
+            onPress={removeImage}
+            disabled={loading || uploading}
+          >
+            Remover imagem
+          </Button>
+        </View>
+      ) : null}
+      <Button
+        mode="outlined"
+        icon="image-plus"
+        onPress={() => selectImage("library")}
+        disabled={loading || uploading}
+        style={styles.botaoImagem}
+      >
+        {imageAsset || form.imageUrl ? "Trocar imagem" : "Selecionar imagem"}
+      </Button>
+      <Button
+        mode="text"
+        icon="camera"
+        onPress={() => selectImage("camera")}
+        disabled={loading || uploading}
+        style={styles.botaoCamera}
+      >
+        Tirar foto
+      </Button>
       <CampoTexto
         label="Sinopse (opcional)"
         valor={form.synopsis}
@@ -128,7 +220,7 @@ export default function FormularioObra({ route, navigation }) {
         icon="content-save"
         onPress={save}
         disabled={loading}
-        loading={loading}
+        loading={loading || uploading}
         contentStyle={styles.botao}
       >
         {editing ? "Salvar alterações" : "Adicionar à coleção"}
@@ -146,6 +238,10 @@ const styles = StyleSheet.create({
   },
   rotulo: { fontWeight: "700", marginBottom: 8, marginTop: 6 },
   segmento: { marginBottom: 18 },
+  imagemContainer: { alignItems: "center", gap: 12, marginBottom: 14 },
+  imagem: { borderRadius: 12, height: 270, width: 180 },
+  botaoImagem: { marginBottom: 18 },
+  botaoCamera: { marginBottom: 18, marginTop: -12 },
   statusOption: {
     borderColor: "#79747E",
     borderRadius: 12,

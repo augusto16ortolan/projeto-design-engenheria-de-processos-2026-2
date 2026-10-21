@@ -19,6 +19,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permita o acesso às fotos para escolher a capa da obra.",
+          "cameraPermission": "Permita o acesso à câmera para registrar a capa da obra.",
+          "microphonePermission": false
+        }
+      ]
+    ]
   }
 }

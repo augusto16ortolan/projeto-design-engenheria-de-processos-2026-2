@@ -63,7 +63,6 @@ export default function AuthProvider({ children }) {
           password,
         });
 
-        // Mantido para a atividade: e-mail e senha são restaurados no próximo acesso.
         await AsyncStorage.setItem("@cena-marcada/credentials", credentials);
 
         setAuthToken(response.token);
@@ -87,7 +86,6 @@ export default function AuthProvider({ children }) {
           password,
         });
 
-        // Mantido para a atividade: e-mail e senha são restaurados no próximo acesso.
         await AsyncStorage.setItem("@cena-marcada/credentials", credentials);
 
         setAuthToken(response.token);

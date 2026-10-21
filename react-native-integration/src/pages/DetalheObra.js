@@ -2,12 +2,12 @@ import { useCallback, useLayoutEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Image,
   ScrollView,
   StyleSheet,
   View,
 } from "react-native";
 import { Button, Chip, Divider, Text } from "react-native-paper";
+import { Image } from "expo-image";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   workStatusIcon,
@@ -126,6 +126,8 @@ export default function DetalheObra({ route, navigation }) {
         <Image
           source={obra.imageUrl ? { uri: obra.imageUrl } : defaultPoster}
           style={styles.poster}
+          contentFit="cover"
+          transition={200}
         />
         <View style={styles.chips}>
           <Chip>{workTypeLabel(obra.type)}</Chip>

@@ -1,5 +1,6 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Card, Chip, Text } from "react-native-paper";
+import { Image } from "expo-image";
 import {
   workStatusIcon,
   workStatusLabel,
@@ -15,6 +16,8 @@ export default function CardObra({ obra, action }) {
         <Image
           source={obra.imageUrl ? { uri: obra.imageUrl } : defaultPoster}
           style={styles.poster}
+          contentFit="cover"
+          transition={200}
         />
         <View style={styles.informacoes}>
           <Text variant="titleMedium" style={styles.titulo}>
