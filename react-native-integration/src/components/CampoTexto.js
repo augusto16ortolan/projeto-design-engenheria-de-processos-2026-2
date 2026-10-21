@@ -1,15 +1,19 @@
-import { TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 
-export default function CampoTexto({ label, valor, setValor, ...rest }) {
+export default function CampoTexto({ label, valor, setValor, erro, ...rest }) {
   return (
-    <TextInput
-      label={label}
-      mode="outlined"
-      value={valor}
-      onChangeText={setValor}
-      style={{ marginBottom: 14 }}
-      theme={{ colors: { background: "#FFFFFF" } }}
-      {...rest}
-    />
+    <>
+      <TextInput
+        label={label}
+        mode="outlined"
+        value={valor}
+        onChangeText={setValor}
+        error={Boolean(erro)}
+        style={{ marginBottom: erro ? 0 : 14 }}
+        theme={{ colors: { background: "#FFFFFF" } }}
+        {...rest}
+      />
+      {erro ? <HelperText type="error">{erro}</HelperText> : null}
+    </>
   );
 }

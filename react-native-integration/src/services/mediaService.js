@@ -1,4 +1,4 @@
-import { getErrorMessage } from "../utils/error";
+import { getRequestError } from "../utils/error";
 import api from "./api";
 
 export async function getMedias(_filters) {
@@ -14,12 +14,7 @@ export async function getMedias(_filters) {
       medias: data.data,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível buscar as obras."),
-    };
+    return getRequestError(error, "Não foi possível buscar as obras.");
   }
 }
 
@@ -34,12 +29,7 @@ export async function getMediaById(_id) {
       media: data,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível buscar a obra seleciona."),
-    };
+    return getRequestError(error, "Não foi possível buscar a obra selecionada.");
   }
 }
 
@@ -54,12 +44,7 @@ export async function createMedia(_data) {
       media: data,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível cadastrar a obra."),
-    };
+    return getRequestError(error, "Não foi possível cadastrar a obra.");
   }
 }
 
@@ -74,12 +59,7 @@ export async function updateMedia(_id, _data) {
       media: data,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível editar a obra."),
-    };
+    return getRequestError(error, "Não foi possível editar a obra.");
   }
 }
 
@@ -91,11 +71,6 @@ export async function deleteMedia(_id) {
       success: true,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível excluir a obra."),
-    };
+    return getRequestError(error, "Não foi possível excluir a obra.");
   }
 }

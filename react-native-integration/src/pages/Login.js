@@ -8,23 +8,22 @@ import LogoApp from "../components/LogoApp";
 
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage } from "../utils/error";
+import { hasValidationErrors, validateLogin } from "../utils/validation";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const { entrar: login } = useAuth();
 
   async function entrar() {
-    try {
-      if (!email || !senha) {
-        return Alert.alert(
-          "Campos obrigatórios",
-          "Informe e-mail e senha para entrar.",
-        );
-      }
+    const validationErrors = validateLogin({ email, password: senha });
+    setErrors(validationErrors);
+    if (hasValidationErrors(validationErrors)) return;
 
+    try {
       setLoading(true);
 
       const response = await login(email, senha);
@@ -69,14 +68,22 @@ export default function Login({ navigation }) {
           <CampoTexto
             label="E-mail"
             valor={email}
-            setValor={setEmail}
+            setValor={(value) => {
+              setEmail(value);
+              setErrors((current) => ({ ...current, email: undefined }));
+            }}
+            erro={errors.email}
             autoCapitalize="none"
             keyboardType="email-address"
           />
           <CampoTexto
             label="Senha"
             valor={senha}
-            setValor={setSenha}
+            setValor={(value) => {
+              setSenha(value);
+              setErrors((current) => ({ ...current, password: undefined }));
+            }}
+            erro={errors.password}
             secureTextEntry
           />
           <Button
@@ -85,8 +92,9 @@ export default function Login({ navigation }) {
             onPress={entrar}
             contentStyle={styles.botao}
             disabled={loading}
+            loading={loading}
           >
-            {loading ? "Carregando..." : "Entrar"}
+            Entrar
           </Button>
         </View>
 

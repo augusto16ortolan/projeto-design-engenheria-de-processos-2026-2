@@ -6,6 +6,7 @@ let authToken = null;
 const api = axios.create({
   baseURL,
   headers: { "Content-Type": "application/json" },
+  timeout: 15000,
 });
 
 api.interceptors.request.use((config) => {
@@ -16,7 +17,7 @@ api.interceptors.request.use((config) => {
 });
 
 export function setAuthToken(token) {
-  authToken = token;
+  authToken = token || null;
 }
 
 export default api;

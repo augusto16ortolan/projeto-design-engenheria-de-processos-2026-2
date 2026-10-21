@@ -8,21 +8,27 @@ import LogoApp from "../components/LogoApp";
 
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage } from "../utils/error";
+import { hasValidationErrors, validateRegistration } from "../utils/validation";
 
 export default function Cadastro({ navigation }) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const { cadastrar: register } = useAuth();
 
   async function cadastrar() {
-    try {
-      if (!nome || !email || !senha) {
-        return Alert.alert("Campos obrigatórios", "Preencha todos os campos.");
-      }
+    const validationErrors = validateRegistration({
+      name: nome,
+      email,
+      password: senha,
+    });
+    setErrors(validationErrors);
+    if (hasValidationErrors(validationErrors)) return;
 
+    try {
       setLoading(true);
 
       const response = await register(nome, email, senha);
@@ -67,20 +73,32 @@ export default function Cadastro({ navigation }) {
           <CampoTexto
             label="Nome completo"
             valor={nome}
-            setValor={setNome}
+            setValor={(value) => {
+              setNome(value);
+              setErrors((current) => ({ ...current, name: undefined }));
+            }}
+            erro={errors.name}
             autoCapitalize="words"
           />
           <CampoTexto
             label="E-mail"
             valor={email}
-            setValor={setEmail}
+            setValor={(value) => {
+              setEmail(value);
+              setErrors((current) => ({ ...current, email: undefined }));
+            }}
+            erro={errors.email}
             autoCapitalize="none"
             keyboardType="email-address"
           />
           <CampoTexto
             label="Senha"
             valor={senha}
-            setValor={setSenha}
+            setValor={(value) => {
+              setSenha(value);
+              setErrors((current) => ({ ...current, password: undefined }));
+            }}
+            erro={errors.password}
             secureTextEntry
           />
           <Button
@@ -89,8 +107,9 @@ export default function Cadastro({ navigation }) {
             onPress={cadastrar}
             contentStyle={styles.botao}
             disabled={loading}
+            loading={loading}
           >
-            {loading ? "Carregando..." : "Criar conta"}
+            Criar conta
           </Button>
         </View>
       </ScrollView>

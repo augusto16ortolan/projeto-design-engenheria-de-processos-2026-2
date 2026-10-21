@@ -1,4 +1,4 @@
-import { getErrorMessage } from "../utils/error";
+import { getRequestError } from "../utils/error";
 import api from "./api";
 
 function normalizeEmail(email) {
@@ -20,12 +20,7 @@ export async function login(_email, _password) {
       success: true,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível entrar agora."),
-    };
+    return getRequestError(error, "Não foi possível entrar agora.");
   }
 }
 
@@ -45,11 +40,6 @@ export async function register(_name, _email, _password) {
       success: true,
     };
   } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.error ||
-        getErrorMessage(error, "Não foi possível cadastrar agora."),
-    };
+    return getRequestError(error, "Não foi possível cadastrar agora.");
   }
 }

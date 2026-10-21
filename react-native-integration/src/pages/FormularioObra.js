@@ -5,6 +5,7 @@ import CampoTexto from "../components/CampoTexto";
 import { WORK_STATUSES, WORK_TYPES } from "../constants/works";
 import { createMedia, updateMedia } from "../services/mediaService";
 import { getErrorMessage } from "../utils/error";
+import { hasValidationErrors, validateWork } from "../utils/validation";
 
 function formFromWork(work) {
   return {
@@ -20,6 +21,7 @@ export default function FormularioObra({ route, navigation }) {
   const work = route.params?.obraParam;
   const [form, setForm] = useState(() => formFromWork(work));
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const editing = Boolean(work?.id);
 
   useLayoutEffect(() => {
@@ -29,14 +31,25 @@ export default function FormularioObra({ route, navigation }) {
   }, [editing, navigation]);
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: undefined }));
   }
 
   async function save() {
+    const validationErrors = validateWork(form);
+    setErrors(validationErrors);
+    if (hasValidationErrors(validationErrors)) return;
+
     try {
       setLoading(true);
+      const payload = {
+        ...form,
+        title: form.title.trim(),
+        imageUrl: form.imageUrl.trim(),
+        synopsis: form.synopsis.trim(),
+      };
       const response = editing
-        ? await updateMedia(work.id, form)
-        : await createMedia(form);
+        ? await updateMedia(work.id, payload)
+        : await createMedia(payload);
       if (!response.success)
         return Alert.alert("Não foi possível salvar", response.message);
       navigation.goBack();
@@ -71,11 +84,13 @@ export default function FormularioObra({ route, navigation }) {
         label="Título"
         valor={form.title}
         setValor={(value) => updateField("title", value)}
+        erro={errors.title}
       />
       <CampoTexto
         label="URL da imagem (opcional)"
         valor={form.imageUrl}
         setValor={(value) => updateField("imageUrl", value)}
+        erro={errors.imageUrl}
         autoCapitalize="none"
         keyboardType="url"
       />
@@ -113,13 +128,10 @@ export default function FormularioObra({ route, navigation }) {
         icon="content-save"
         onPress={save}
         disabled={loading}
+        loading={loading}
         contentStyle={styles.botao}
       >
-        {loading
-          ? "Salvando..."
-          : editing
-            ? "Salvar alterações"
-            : "Adicionar à coleção"}
+        {editing ? "Salvar alterações" : "Adicionar à coleção"}
       </Button>
     </ScrollView>
   );

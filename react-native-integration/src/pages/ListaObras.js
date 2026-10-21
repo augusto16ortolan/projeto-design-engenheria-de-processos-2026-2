@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FAB, Text } from "react-native-paper";
+import { Button, FAB, Text } from "react-native-paper";
 import CardObra from "../components/CardObra";
 import { WORK_TYPES } from "../constants/works";
 import { useAuth } from "../context/AuthContext";
@@ -30,37 +30,55 @@ export default function ListaObras({ navigation }) {
   const [type, setType] = useState(ALL);
   const [obras, setObras] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { sair, user } = useAuth();
+  const [refreshing, setRefreshing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const requestId = useRef(0);
+  const { sair, clearSession, user } = useAuth();
 
-  const getObras = useCallback(async () => {
+  const getObras = useCallback(async ({ refresh = false } = {}) => {
+    const currentRequestId = ++requestId.current;
     try {
-      setLoading(true);
+      if (refresh) setRefreshing(true);
+      else setLoading(true);
+      setErrorMessage("");
       const response = await getMedias({
         status: status === ALL ? undefined : status,
         type: type === ALL ? undefined : type,
       });
-      if (!response.success)
-        return Alert.alert("Não foi possível carregar", response.message);
+      if (currentRequestId !== requestId.current) return;
+      if (!response.success) {
+        if (response.unauthorized) {
+          Alert.alert("Sessão encerrada", response.message);
+          await clearSession();
+          return;
+        }
+        setErrorMessage(response.message);
+        return;
+      }
       setObras(response.medias);
     } catch (error) {
+      if (currentRequestId !== requestId.current) return;
       Alert.alert(
         "Não foi possível carregar",
         getErrorMessage(error, "Tente atualizar a lista."),
       );
     } finally {
-      setLoading(false);
+      if (currentRequestId === requestId.current) {
+        setLoading(false);
+        setRefreshing(false);
+      }
     }
-  }, [status, type]);
+  }, [clearSession, status, type]);
 
   useFocusEffect(
     useCallback(() => {
-      getObras();
+        getObras();
     }, [getObras]),
   );
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: `Olá, ${user.name}`,
+      headerTitle: `Olá, ${user?.name || ""}`,
       headerLeft: () => (
         <TouchableOpacity onPress={sair}>
           <MaterialIcons name="logout" size={24} color="black" />
@@ -74,7 +92,7 @@ export default function ListaObras({ navigation }) {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, sair, user.name]);
+  }, [navigation, sair, user?.name]);
 
   return (
     <View style={styles.container}>
@@ -132,12 +150,19 @@ export default function ListaObras({ navigation }) {
           </TouchableOpacity>
         ))}
       </View>
-      {loading ? (
+      {loading && !obras.length ? (
         <ActivityIndicator
           style={styles.loading}
           size="large"
           color="#E62429"
         />
+      ) : errorMessage && !obras.length ? (
+        <View style={styles.estadoErro}>
+          <Text style={styles.erro}>{errorMessage}</Text>
+          <Button mode="contained" onPress={() => getObras()}>
+            Tentar novamente
+          </Button>
+        </View>
       ) : (
         <FlatList
           data={obras}
@@ -155,8 +180,8 @@ export default function ListaObras({ navigation }) {
               Nenhuma obra encontrada nesses filtros.
             </Text>
           }
-          onRefresh={getObras}
-          refreshing={loading}
+          onRefresh={() => getObras({ refresh: true })}
+          refreshing={refreshing}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.lista}
         />
@@ -197,6 +222,8 @@ const styles = StyleSheet.create({
   textoFiltroAtivo: { color: "#FFFFFF" },
   lista: { paddingBottom: 100, flexGrow: 1 },
   loading: { marginTop: 32 },
+  estadoErro: { alignItems: "center", gap: 14, marginTop: 32 },
+  erro: { color: "#B3261E", textAlign: "center" },
   vazio: { color: "#5F6368", marginTop: 28, textAlign: "center" },
   fab: { bottom: 24, position: "absolute", right: 20 },
 });

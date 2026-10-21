@@ -16,6 +16,7 @@ import {
 } from "../constants/works";
 import { deleteMedia, getMediaById } from "../services/mediaService";
 import { getErrorMessage } from "../utils/error";
+import { useAuth } from "../context/AuthContext";
 
 const defaultPoster = require("../../assets/icon.png");
 
@@ -24,6 +25,8 @@ export default function DetalheObra({ route, navigation }) {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [obra, setObra] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { clearSession } = useAuth();
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: obra?.title || obraParam.title });
@@ -32,23 +35,24 @@ export default function DetalheObra({ route, navigation }) {
   const loadWork = useCallback(async () => {
     try {
       setLoading(true);
+      setErrorMessage("");
       const response = await getMediaById(obraParam.id);
       if (!response.success) {
-        Alert.alert("Não foi possível carregar", response.message);
-        navigation.goBack();
+        if (response.unauthorized) {
+          Alert.alert("Sessão encerrada", response.message);
+          await clearSession();
+          return;
+        }
+        setErrorMessage(response.message);
         return;
       }
       setObra(response.media);
     } catch (error) {
-      Alert.alert(
-        "Não foi possível carregar",
-        getErrorMessage(error, "Tente novamente em instantes."),
-      );
-      navigation.goBack();
+      setErrorMessage(getErrorMessage(error, "Tente novamente em instantes."));
     } finally {
       setLoading(false);
     }
-  }, [navigation, obraParam.id]);
+  }, [clearSession, obraParam.id]);
 
   useFocusEffect(
     useCallback(() => {
@@ -69,11 +73,17 @@ export default function DetalheObra({ route, navigation }) {
             try {
               setDeleting(true);
               const response = await deleteMedia(obra.id);
-              if (!response.success)
+              if (!response.success) {
+                if (response.unauthorized) {
+                  Alert.alert("Sessão encerrada", response.message);
+                  await clearSession();
+                  return;
+                }
                 return Alert.alert(
                   "Não foi possível excluir",
                   response.message,
                 );
+              }
               navigation.goBack();
             } catch (error) {
               Alert.alert(
@@ -89,11 +99,24 @@ export default function DetalheObra({ route, navigation }) {
     );
   }
 
-  if (loading || !obra)
+  if (loading)
     return (
       <View style={styles.estado}>
         <ActivityIndicator size="large" color="#E62429" />
         <Text>Carregando obra...</Text>
+      </View>
+    );
+
+  if (!obra)
+    return (
+      <View style={styles.estado}>
+        <Text style={styles.erro}>{errorMessage || "Não foi possível carregar a obra."}</Text>
+        <Button mode="contained" onPress={loadWork}>
+          Tentar novamente
+        </Button>
+        <Button mode="text" onPress={() => navigation.goBack()}>
+          Voltar
+        </Button>
       </View>
     );
 
@@ -141,6 +164,7 @@ export default function DetalheObra({ route, navigation }) {
             icon="delete-outline"
             onPress={confirmDelete}
             disabled={deleting}
+            loading={deleting}
           >
             {deleting ? "Excluindo..." : "Excluir"}
           </Button>
@@ -172,4 +196,5 @@ const styles = StyleSheet.create({
   sinopse: { color: "#424242", lineHeight: 24, marginBottom: 16 },
   acoes: { gap: 12, marginTop: 24 },
   estado: { alignItems: "center", flex: 1, gap: 12, justifyContent: "center" },
+  erro: { color: "#B3261E", textAlign: "center" },
 });

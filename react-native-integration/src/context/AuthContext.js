@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useCallback, useContext, useState, useEffect } from "react";
 import { login, register } from "../services/authService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setAuthToken } from "../services/api";
@@ -9,15 +9,29 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
-  const [initializing, setInitializing] = useState(false);
+  const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
     automaticLogin();
   }, []);
 
+  const clearAuthentication = useCallback(() => {
+    setAuthToken(null);
+    setToken(null);
+    setUser(null);
+    setAuthenticated(false);
+  }, []);
+
+  const clearSession = useCallback(async () => {
+    try {
+      await AsyncStorage.removeItem("@cena-marcada/credentials");
+    } finally {
+      clearAuthentication();
+    }
+  }, [clearAuthentication]);
+
   async function automaticLogin() {
     try {
-      setInitializing(true);
       const credentials = await AsyncStorage.getItem(
         "@cena-marcada/credentials",
       );
@@ -31,13 +45,10 @@ export default function AuthProvider({ children }) {
       const response = await entrar(email, password);
 
       if (!response.success) {
-        throw Error("Erro ao fazer o login automatico");
+        await clearSession();
       }
     } catch (error) {
-      await AsyncStorage.removeItem("@cena-marcada/credentials");
-      setToken(null);
-      setUser(null);
-      setAuthenticated(null);
+      await clearSession();
     } finally {
       setInitializing(false);
     }
@@ -48,11 +59,11 @@ export default function AuthProvider({ children }) {
       const response = await login(email, password);
       if (response.success) {
         const credentials = JSON.stringify({
-          email,
+          email: email.trim().toLowerCase(),
           password,
         });
 
-        // NAO É A FORMA CORRETA DE FAZER
+        // Mantido para a atividade: e-mail e senha são restaurados no próximo acesso.
         await AsyncStorage.setItem("@cena-marcada/credentials", credentials);
 
         setAuthToken(response.token);
@@ -62,10 +73,8 @@ export default function AuthProvider({ children }) {
       }
       return response;
     } catch (error) {
-      setToken(null);
-      setUser(null);
-      setAuthenticated(null);
-      return { succes: false };
+      clearAuthentication();
+      return { success: false, message: "Não foi possível salvar sua sessão." };
     }
   }
 
@@ -74,11 +83,11 @@ export default function AuthProvider({ children }) {
       const response = await register(name, email, password);
       if (response.success) {
         const credentials = JSON.stringify({
-          email,
+          email: email.trim().toLowerCase(),
           password,
         });
 
-        // NAO É A FORMA CORRETA DE FAZER
+        // Mantido para a atividade: e-mail e senha são restaurados no próximo acesso.
         await AsyncStorage.setItem("@cena-marcada/credentials", credentials);
 
         setAuthToken(response.token);
@@ -88,23 +97,18 @@ export default function AuthProvider({ children }) {
       }
       return response;
     } catch (error) {
-      setToken(null);
-      setUser(null);
-      setAuthenticated(null);
-      return { succes: false };
+      clearAuthentication();
+      return { success: false, message: "Não foi possível salvar sua sessão." };
     }
   }
 
   async function sair() {
     try {
-      await AsyncStorage.removeItem("@cena-marcada/credentials");
-
-      setToken(null);
-      setUser(null);
-      setAuthenticated(false);
+      await clearSession();
       return { success: true };
     } catch (error) {
-      return { succes: false };
+      clearAuthentication();
+      return { success: false, message: "Não foi possível encerrar a sessão." };
     }
   }
 
@@ -118,6 +122,7 @@ export default function AuthProvider({ children }) {
         entrar,
         cadastrar,
         sair,
+        clearSession,
       }}
     >
       {children}
